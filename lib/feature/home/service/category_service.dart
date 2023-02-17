@@ -22,11 +22,19 @@
 import 'package:dio/dio.dart';
 import 'package:mobile_app/feature/home/model/category_model.dart';
 
+import '../../../product/model/contents_model.dart';
+
 abstract class ICategoryService {
   ICategoryService(this.dio);
   final Dio dio;
 
   Future<List<CategoryModel>?> getCategories();
+  Future<List<ContentModel>?> getContentItem();
+  Future<List<ContentModel>?> getContentClassics();
+  Future<List<ContentModel>?> getContentChildren();
+  Future<List<ContentModel>?> getContentPhilosophy();
+
+
 }
 
 class CategoryService extends ICategoryService {
@@ -36,7 +44,6 @@ class CategoryService extends ICategoryService {
   Future<List<CategoryModel>?> getCategories() async {
     final response = await dio.get('/categories');
     if (response.statusCode == 200) {
-      
       final jsonBody = response.data["category"];
       if (jsonBody is List) {
         return jsonBody.map((json) => CategoryModel.fromJson(json)).toList();
@@ -44,11 +51,82 @@ class CategoryService extends ICategoryService {
     }
     return null;
   }
+
+  @override
+  Future<List<ContentModel>?> getContentItem() async {
+    final response = await dio.get('/products/1');
+    if (response.statusCode == 200) {
+      final jsonBody = response.data["product"];
+      if (jsonBody is List) {
+        return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<List<ContentModel>?> getContentClassics() async {
+    final response = await dio.get('/products/2');
+    if (response.statusCode == 200) {
+      final jsonBody = response.data["product"];
+      if (jsonBody is List) {
+        return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<List<ContentModel>?> getContentChildren() async {
+    final response = await dio.get('/products/3');
+    if (response.statusCode == 200) {
+      final jsonBody = response.data["product"];
+      if (jsonBody is List) {
+        return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
+      }
+    }
+    return null;
+  }
+
+  @override
+  Future<List<ContentModel>?> getContentPhilosophy() async {
+    final response = await dio.get('/products/4');
+    if (response.statusCode == 200) {
+      final jsonBody = response.data["product"];
+      if (jsonBody is List) {
+        return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
+      }
+    }
+    return null;
+  }
 }
 
+//--------------------------------------------------------------------------------------------------------
 
 
+// abstract class ICategoryId {
+//   ICategoryId(this.dio);
+//   final Dio dio;
 
+//   Future<List<CategoryId>?> getCategoryId();
+// }
+
+// class CategoryId extends ICategoryId {
+//   CategoryId(Dio dio) : super(dio);
+
+//   @override
+//   Future<List<CategoryId>?> getCategoryId() async {
+//     final response = await dio.get('/products/1');
+//     if (response.statusCode == 200) {
+      
+//       final jsonBody = response.data["product"];
+//       if (jsonBody is List) {
+//         return jsonBody.map((json) => CategoryId.fromJson(json)).toList();
+//       }
+//     }
+//     return null;
+//   }
+// }
 
 
 

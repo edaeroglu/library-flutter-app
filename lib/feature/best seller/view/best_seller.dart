@@ -2,17 +2,58 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/feature/home/view/home_view.dart';
-
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
+import '../../../product/model/contents_model.dart';
+import '../../../product/service/project_dio.dart';
+import '../../book details/view/book_details_view.dart';
+import '../../home/service/category_service.dart';
+
+abstract class BestSellerViewModel extends State<BestSellerView>
+    with ProjectDioMixin {
+  late final ICategoryService categoryService;
+
+  List<ContentModel> contentList = [];
+  bool isLoading = false;
+
+  void changeLoading() {
+    setState(() {
+      isLoading = !isLoading;
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    initCategoryService();
+    getListContent();
+  }
+
+  Future<void> initCategoryService() async {
+    categoryService = CategoryService(service);
+  }
+
+  Future<void> getListContent() async {
+    changeLoading();
+    contentList = await categoryService.getContentItem() ?? [];
+    changeLoading();
+  }
+}
 
 class BestSellerView extends StatefulWidget {
-  const BestSellerView({super.key});
+  BestSellerView({super.key});
 
   @override
   State<BestSellerView> createState() => _BestSellerViewState();
 }
 
-class _BestSellerViewState extends State<BestSellerView> {
+class _BestSellerViewState extends BestSellerViewModel {
+  List<ContentModel> contentList = [];
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,48 +87,131 @@ class _BestSellerViewState extends State<BestSellerView> {
         child: Column(
           children: [
             SearchBox().searchBoxDesign,
-            Row(
-              children: [
-                SizedBox(
-                  width: 170.w,
-                  height: 284.h,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset(
-                          'assets/images/dune.png',
-                          width: 150.w,
-                          height: 225.h,
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.only(top: 40),
+                child: GridView.builder(
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.6,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    itemCount:
+                        contentList?.length, //widget.contentList?.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) => BookDetailsView()));
+                        },
+                        child: Card(
+                          color: const Color(0xffF4F4FF),
+                          child: Column(
+                            children: [
+                              Image.asset(
+                                'assets/images/dune.png',
+                                width: 150.w,
+                                height: 225.h,
+                                fit: BoxFit.cover,
+                              ),
+                              Row(
+                                children: [
+                                  Column(
+                                    children: [
+                                      Text(
+                                        contentList?[index].name ?? "",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                      Text(
+                                        contentList?[index].author ?? "",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ],
+                                  ),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        contentList?[index].price.toString() ??
+                                            "",
+                                        style: TextStyle(color: Colors.black),
+                                      ),
+                                    ],
+                                  )
+                                ],
+                              )
+                            ],
+                          ),
                         ),
-                      ),
-                      Text('Dune'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [Text('Frank Herbert'), Text('87,75')],
-                      )
-                    ],
-                  ),
-                ),
-                SizedBox(
-                  width: 170.w,
-                  height: 284.h,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.all(10),
-                        child: Image.asset('assets/images/dune.png'),
-                      ),
-                      Text('Dune'),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                        children: [Text('Frank Herbert'), Text('87,75')],
-                      )
-                    ],
-                  ),
-                ),
-              ],
+                      );
+                    }),
+              ),
+              // child: GridView.builder(
+              //   crossAxisSpacing: 10,
+              //   mainAxisSpacing: 10,
+              //   crossAxisCount: 2,
+              //   childAspectRatio: 0.6,
+
+              //   children: [
+
+              //     GridCardWidget(
+
+              //       contentList: contentList,
+              //     ),
+              //     GridCardWidget(),
+              //     GridCardWidget(),
+              //     GridCardWidget(),
+              //     GridCardWidget(),
+              //     GridCardWidget(),
+              //     GridCardWidget(),
+              //   ],
+              // ),
             )
+            // Row(
+            //   children: [
+            //     SizedBox(
+            //       width: 170.w,
+            //       height: 284.h,
+            //       child: Column(
+            //         children: [
+            //           Padding(
+            //             padding: const EdgeInsets.all(10),
+            //             child: Image.asset(
+            //               'assets/images/dune.png',
+            //               width: 150.w,
+            //               height: 225.h,
+            //             ),
+            //           ),
+            //           Text('Dune'),
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //             children: [Text('Frank Herbert'), Text('87,75')],
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //     SizedBox(
+            //       width: 170.w,
+            //       height: 284.h,
+            //       child: Column(
+            //         children: [
+            //           Padding(
+            //             padding: const EdgeInsets.all(10),
+            //             child: Image.asset('assets/images/dune.png'),
+            //           ),
+            //           Text('Dune'),
+            //           Row(
+            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            //             children: [Text('Frank Herbert'), Text('87,75')],
+            //           )
+            //         ],
+            //       ),
+            //     ),
+            //   ],
+            // )
           ],
         ),
       ),

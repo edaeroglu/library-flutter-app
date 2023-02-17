@@ -3,21 +3,29 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
 
 class GeneralButton extends StatelessWidget {
-  const GeneralButton({super.key, this.onPressed, this.buttonText});
+  const GeneralButton({super.key, this.onPressed, required this.buttonText, this.secondText});
   final void Function()? onPressed;
-  final String? buttonText;
+  final String buttonText;
+  final String? secondText;
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: onPressed ?? () {},
-      child: Text(
-        buttonText ?? '',
-        style: GeneralTextStyle.generalButtonTextStyle,
-      ),
       style: ElevatedButton.styleFrom(
           minimumSize: Size(double.infinity, 60.h),
-          backgroundColor: Color(0xFFEF6B4A)),
+          backgroundColor: const Color(0xFFEF6B4A)),
+      child: secondText == null ? Text(
+        buttonText ?? '',
+        style: GeneralTextStyle.generalButtonTextStyle,
+      ) : Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(buttonText),
+          Text(secondText!)
+        ],
+      ),
+      
     );
   }
 }

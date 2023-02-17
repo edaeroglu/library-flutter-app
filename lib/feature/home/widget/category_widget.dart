@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../product/model/contents_model.dart';
 import '../../../product/text_style/text_style.dart';
 import '../../best seller/view/best_seller.dart';
 
-class BestSellerWidget extends StatelessWidget {
-  const BestSellerWidget({
-    super.key,
-  });
+class BestSellerWidgets extends StatelessWidget {
+  List<ContentModel>? contentList;
+
+  BestSellerWidgets({super.key, this.contentList});
 
   @override
   Widget build(BuildContext context) {
@@ -15,30 +16,33 @@ class BestSellerWidget extends StatelessWidget {
       children: [
         Padding(
           padding: EdgeInsets.only(bottom: 20.h),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('Best Seller', style: GeneralTextStyle.CategoryTextStyle),
-              TextButton(
-                onPressed: () {
-                  Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const BestSellerView()));
-                },
-                child: const Text(
-                  'View All',
-                  style: TextStyle(color: Color(0xffEF6B4A)),
-                ),
-              )
-            ],
+          
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text("",
+                      style: GeneralTextStyle.CategoryTextStyle),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => BestSellerView()));
+                    },
+                    child: const Text(
+                      'View All',
+                      style: TextStyle(color: Color(0xffEF6B4A)),
+                    ),
+                  )
+                ],
+              
           ),
         ),
         SizedBox(
           height: 140.h,
           width: double.infinity,
           child: ListView.builder(
-            itemCount: 1,
+            itemCount: contentList?.length,
             //itemExtent: 70.0,
             scrollDirection: Axis.horizontal,
             itemBuilder: (BuildContext context, int index) {
@@ -50,58 +54,69 @@ class BestSellerWidget extends StatelessWidget {
                       width: 210.w,
                       height: 140.h,
                       child: Row(children: [
-                        Image.asset('assets/images/dune.png'),
+                        Image.asset("assets/images/dune.png"),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
-                            Text('Dune',
-                                style: GeneralTextStyle.WriterTextStyle),
                             Text(
-                              'Frank Herbert',
-                              style: GeneralTextStyle.BookTextStyle,
+                              contentList?[index].name ?? "",
+                              style: TextStyle(color: Colors.black),
                             ),
-                            SizedBox(
-                              height: 44.h,
+                            Text(
+                              contentList?[index].author ?? "",
+                              style: TextStyle(color: Colors.black),
                             ),
-                            Text('87,75 ',
-                                style: GeneralTextStyle.PriceTextStyle)
+                            Text(
+                              contentList![index].price.toString(),
+                              style: TextStyle(color: Colors.black),
+                            ),
+
+                            // Text(
+                            //   'Frank Herbert',
+                            //   style: GeneralTextStyle.BookTextStyle,
+                            // ),
+                            // SizedBox(
+                            //   height: 44.h,
+                            // ),
+                            // Text('87,75 ',
+                            //     style: GeneralTextStyle.PriceTextStyle)
                           ],
                         )
                       ]),
                     ),
                   ),
-                  Card(
-                    color: Color(0xffF4F4FF),
-                    child: SizedBox(
-                      width: 210.w,
-                      height: 140.h,
-                      child: Row(children: [
-                        Image.asset('assets/images/1984.png'),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Text(
-                              '1984',
-                              style: GeneralTextStyle.WriterTextStyle,
-                            ),
-                            Text(
-                              'George Orwell',
-                              style: GeneralTextStyle.BookTextStyle,
-                            ),
-                            SizedBox(
-                              height: 44.h,
-                            ),
-                            Text(
-                              '35,75 ',
-                              style: GeneralTextStyle.PriceTextStyle,
-                            )
-                          ],
-                        )
-                      ]),
-                    ),
-                  )
+                  // Card(
+                  //   color: Color(0xffF4F4FF),
+                  //   child: SizedBox(
+                  //     width: 210.w,
+                  //     height: 140.h,
+                  //     child: Row(children: [
+                  //       Image.asset('assets/images/1984.png'),
+                  //       Column(
+                  //         crossAxisAlignment: CrossAxisAlignment.start,
+                  //         mainAxisAlignment: MainAxisAlignment.center,
+                  //         children: [
+                  //           Text(
+                  //             '1984',
+                  //             style: GeneralTextStyle.WriterTextStyle,
+                  //           ),
+                  //           Text(
+                  //             'George Orwell',
+                  //             style: GeneralTextStyle.BookTextStyle,
+                  //           ),
+                  //           SizedBox(
+                  //             height: 44.h,
+                  //           ),
+                  //           Text(
+                  //             '35,75 ',
+                  //             style: GeneralTextStyle.PriceTextStyle,
+                  //           )
+                  //         ],
+                  //       )
+                  //     ]),
+                  //   ),
+                  // )
                 ],
               );
             },
@@ -111,6 +126,121 @@ class BestSellerWidget extends StatelessWidget {
     );
   }
 }
+
+// class BestSellerWidget extends StatefulWidget {
+//   const BestSellerWidget({
+//     super.key,
+//   });
+
+//   @override
+//   _BestSellerWidgetState createState() => _BestSellerWidgetState();
+// }
+
+// class _BestSellerWidgetState extends HomeViewModel {
+//   @override
+//   Widget build(BuildContext context) {
+//     return Column(
+//       children: [
+//         Padding(
+//           padding: EdgeInsets.only(bottom: 20.h),
+//           child: Row(
+//             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//             children: [
+//               Text('Best Seller', style: GeneralTextStyle.CategoryTextStyle),
+//               TextButton(
+//                 onPressed: () {
+//                   Navigator.push(
+//                       context,
+//                       MaterialPageRoute(
+//                           builder: (context) => BestSellerView()));
+//                 },
+//                 child: const Text(
+//                   'View All',
+//                   style: TextStyle(color: Color(0xffEF6B4A)),
+//                 ),
+//               )
+//             ],
+//           ),
+//         ),
+//         SizedBox(
+//           height: 140.h,
+//           width: double.infinity,
+//           child: ListView.builder(
+//             itemCount: contentModel.length,
+//             //itemExtent: 70.0,
+//             scrollDirection: Axis.horizontal,
+//             itemBuilder: (BuildContext context, int index) {
+//               return Row(
+//                 children: [
+//                   Card(
+//                     color: Color(0xffF4F4FF),
+//                     child: SizedBox(
+//                       width: 210.w,
+//                       height: 140.h,
+//                       child: Row(children: [
+//                         Image.asset('assets/images/dune.png'),
+//                         Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Text(
+//                               contentModel[index].name ?? "",
+//                               style: TextStyle(color: Colors.black),
+//                             ),
+//                             Text(
+//                               'Frank Herbert',
+//                               style: GeneralTextStyle.BookTextStyle,
+//                             ),
+//                             SizedBox(
+//                               height: 44.h,
+//                             ),
+//                             Text('87,75 ',
+//                                 style: GeneralTextStyle.PriceTextStyle)
+//                           ],
+//                         )
+//                       ]),
+//                     ),
+//                   ),
+//                   Card(
+//                     color: Color(0xffF4F4FF),
+//                     child: SizedBox(
+//                       width: 210.w,
+//                       height: 140.h,
+//                       child: Row(children: [
+//                         Image.asset('assets/images/1984.png'),
+//                         Column(
+//                           crossAxisAlignment: CrossAxisAlignment.start,
+//                           mainAxisAlignment: MainAxisAlignment.center,
+//                           children: [
+//                             Text(
+//                               '1984',
+//                               style: GeneralTextStyle.WriterTextStyle,
+//                             ),
+//                             Text(
+//                               'George Orwell',
+//                               style: GeneralTextStyle.BookTextStyle,
+//                             ),
+//                             SizedBox(
+//                               height: 44.h,
+//                             ),
+//                             Text(
+//                               '35,75 ',
+//                               style: GeneralTextStyle.PriceTextStyle,
+//                             )
+//                           ],
+//                         )
+//                       ]),
+//                     ),
+//                   )
+//                 ],
+//               );
+//             },
+//           ),
+//         ),
+//       ],
+//     );
+//   }
+// }
 
 class ClassicsWidget extends StatelessWidget {
   const ClassicsWidget({
@@ -319,3 +449,59 @@ Bir Gece''',
     );
   }
 }
+
+// class GridCardWidget extends StatelessWidget {
+//   List<ContentModel>? contentList = [];
+
+//   GridCardWidget({super.key, this.contentList});
+
+  
+
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return GestureDetector(
+//       onTap: () {
+//         Navigator.push(context,
+//             MaterialPageRoute(builder: (context) => const BookDetailsView()));
+//       },
+//       child: Card(
+//         color: const Color(0xffF4F4FF),
+//         child: Column(
+//           children: [
+//             Image.asset(
+//               'assets/images/dune.png',
+//               width: 150.w,
+//               height: 225.h,
+//               fit: BoxFit.cover,
+//             ),
+//             Row(
+//               children: [
+//                 Column(
+//                   children: [
+//                     Text(
+//                       contentList?[index].name ?? "",
+//                       style: TextStyle(color: Colors.black),
+//                     ),
+//                     Text(
+//                       contentList?[index].author ?? "",
+//                       style: TextStyle(color: Colors.black),
+//                     ),
+//                   ],
+//                 ),
+//                 Row(
+//                   children: [
+//                     Text(
+//                       contentList![index].price.toString(),
+//                       style: TextStyle(color: Colors.black),
+//                     ),
+//                   ],
+//                 )
+//               ],
+//             )
+//           ],
+//         ),
+//       ),
+//     );
+//   }
+// }

@@ -1,8 +1,8 @@
-import 'dart:developer';
+
 
 import 'package:dio/dio.dart';
 
-class ProjectDioMixin {
+mixin ProjectDioMixin {
   final service =
       Dio(BaseOptions(baseUrl: 'https://assign-api.piton.com.tr/api/rest'));
 }

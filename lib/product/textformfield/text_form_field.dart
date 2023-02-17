@@ -37,7 +37,7 @@ class PasswordBox {
 
 class SearchBox {
   final searchBoxDesign = Padding(
-    padding: const EdgeInsets.only(top:20, bottom:40 ),
+    padding: const EdgeInsets.only(top: 20),
     child: TextFormField(
       style: GeneralTextStyle.CategoryTextStyle,
       obscureText: true,
