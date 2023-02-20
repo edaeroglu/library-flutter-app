@@ -54,169 +54,170 @@ class _HomeViewState extends HomeViewModel {
             )
           ],
         ),
-        body: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 20.w),
-          child: Column(children: [
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  ElevatedButton(
-                      onPressed: () {},
+        body: FutureBuilder(
+          future: getList(),
+          builder: (context, snapshot) => Padding(
+            padding: EdgeInsets.symmetric(horizontal: 20.w),
+            child: Column(children: [
+              SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    ElevatedButton(
+                        onPressed: () {},
 
-                      // ignore: sort_child_properties_last
-                      child: Text(
-                        "All",
-                        style: GeneralTextStyle.CategoryTextStyle,
-                      ),
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xff6251DD), elevation: 0)),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                      child: Text(
-                        'Classics',
-                        style: GeneralTextStyle.CategoryTextStyle,
-                      )),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                      child: Text(
-                        'Horror',
-                        style: GeneralTextStyle.CategoryTextStyle,
-                      )),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                  ElevatedButton(
-                      onPressed: () {},
-                      style: ElevatedButton.styleFrom(
-                          backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                      child: Text(
-                        'Romance',
-                        style: GeneralTextStyle.CategoryTextStyle,
-                      )),
-                  // ElevatedButton(
-                  //     onPressed: () {},
-                  //     style: ElevatedButton.styleFrom(
-                  //         backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                  //     child: Text(
-                  //       'Children',
-                  //       style: GeneralTextStyle.CategoryTextStyle,
-                  //     )),
-                  SizedBox(
-                    width: 10.w,
-                  ),
-                ],
-              ),
-            ),
-            SearchBox().searchBoxDesign,
-            Expanded(
-              child: ListView.builder(
-                  itemCount: categoryList.length,
-                  itemBuilder: (BuildContext context, int index) {
-                    return Column(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(top: 40, bottom: 20),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(
-                                categoryList[index].name ?? "",
-                                style: GoogleFonts.manrope(
-                                  fontSize: 20.sp,
-                                  fontWeight: FontWeight.w700,
-                                  color: Color(0xff090937),
-                                ),
-                              ),
-                              TextButton(
-                                  onPressed: () {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                BestSellerView()));
-                                  },
-                                  child: const Text(
-                                    'View All',
-                                    style: TextStyle(color: Color(0xffEF6B4A)),
-                                  ))
-                            ],
-                          ),
+                        // ignore: sort_child_properties_last
+                        child: Text(
+                          "All",
+                          style: GeneralTextStyle.CategoryTextStyle,
                         ),
-                        SizedBox(
-                          height: 140.h,
-                          width: double.infinity,
-                          child: ListView.builder(
-                              itemCount: contentList.length,
-                              scrollDirection: Axis.horizontal,
-                              itemBuilder: (BuildContext context, int index) {
-                                // if (index < contentList.length) {
-                                // } else if (index <
-                                //     contentList.length +
-                                //         contentClassics.length) {
-                                // } else if (index <
-                                //     contentList.length +
-                                //         contentClassics.length +
-                                //         contentChildren.length) {
-                                // } else {}
-                                return Card(
-                                  elevation: 0,
-                                  color: Color(0xffF4F4FF),
-                                  child: Row(
-                                    children: [
-                                      Image.asset('assets/images/dune.png'),
-                                      Column(
-                                        crossAxisAlignment:
-                                            CrossAxisAlignment.start,
-                                        children: [
-                                          Padding(
-                                            padding: EdgeInsets.only(
-                                                top: 10.h, bottom: 4.h),
-                                            child: Text(
-                                              contentList[index].name ?? "",
-                                              style: GeneralTextStyle
-                                                  .WriterTextStyle,
-                                            ),
-                                          ),
-                                          Text(
-                                            contentList[index].author ?? "",
-                                            style:
-                                                GeneralTextStyle.BookTextStyle,
-                                          ),
-                                          SizedBox(
-                                            height: 45.h,
-                                          ),
-                                          Text(
-                                            contentList[index]
-                                                    .price
-                                                    .toString() ??
-                                                "",
-                                            style:
-                                                GeneralTextStyle.PriceTextStyle,
-                                          )
-                                        ],
-                                      ),
-                                    ],
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xff6251DD), elevation: 0)),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffF4F4FF), elevation: 0),
+                        child: Text(
+                          'Classics',
+                          style: GeneralTextStyle.CategoryTextStyle,
+                        )),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffF4F4FF), elevation: 0),
+                        child: Text(
+                          'Horror',
+                          style: GeneralTextStyle.CategoryTextStyle,
+                        )),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                    ElevatedButton(
+                        onPressed: () {},
+                        style: ElevatedButton.styleFrom(
+                            backgroundColor: Color(0xffF4F4FF), elevation: 0),
+                        child: Text(
+                          'Romance',
+                          style: GeneralTextStyle.CategoryTextStyle,
+                        )),
+                    // ElevatedButton(
+                    //     onPressed: () {},
+                    //     style: ElevatedButton.styleFrom(
+                    //         backgroundColor: Color(0xffF4F4FF), elevation: 0),
+                    //     child: Text(
+                    //       'Children',
+                    //       style: GeneralTextStyle.CategoryTextStyle,
+                    //     )),
+                    SizedBox(
+                      width: 10.w,
+                    ),
+                  ],
+                ),
+              ),
+              SearchBox().searchBoxDesign,
+              Expanded(
+                child: ListView.builder(
+                    itemCount: categoryList.length,
+                    itemBuilder: (BuildContext context, int index) {
+                      return Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(top: 40, bottom: 20),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
+                                  categoryList[index].name ?? "",
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 20.sp,
+                                    fontWeight: FontWeight.w700,
+                                    color: Color(0xff090937),
                                   ),
-                                );
-                              }),
-                        )
-                      ],
-                    );
-                  }),
-            ),
-          ]),
+                                ),
+                                TextButton(
+                                    onPressed: () {
+                                      Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  BestSellerView()));
+                                    },
+                                    child: const Text(
+                                      'View All',
+                                      style:
+                                          TextStyle(color: Color(0xffEF6B4A)),
+                                    ))
+                              ],
+                            ),
+                          ),
+                          SizedBox(
+                            height: 140.h,
+                            width: double.infinity,
+                            child: ListView.builder(
+                                // itemCount: contentList.length,
+                                itemCount: allContents[index].length,
+                                scrollDirection: Axis.horizontal,
+                                itemBuilder:
+                                    (BuildContext context, int index2) {
+                                  return Card(
+                                    elevation: 0,
+                                    color: Color(0xffF4F4FF),
+                                    child: Row(
+                                      children: [
+                                        Image.asset('assets/images/dune.png'),
+                                        Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Padding(
+                                              padding: EdgeInsets.only(
+                                                  top: 10.h, bottom: 4.h),
+                                              child: Text(
+                                                allContents[index][index2]
+                                                        .name ??
+                                                    "",
+                                                style: GeneralTextStyle
+                                                    .WriterTextStyle,
+                                              ),
+                                            ),
+                                            Text(
+                                              allContents[index][index2]
+                                                      .author ??
+                                                  "",
+                                              style: GeneralTextStyle
+                                                  .BookTextStyle,
+                                            ),
+                                            SizedBox(
+                                              height: 45.h,
+                                            ),
+                                            Text(
+                                              allContents[index][index2]
+                                                      .price
+                                                      .toString() ??
+                                                  "",
+                                              style: GeneralTextStyle
+                                                  .PriceTextStyle,
+                                            )
+                                          ],
+                                        ),
+                                      ],
+                                    ),
+                                  );
+                                }),
+                          )
+                        ],
+                      );
+                    }),
+              ),
+            ]),
+          ),
         ));
   }
 }

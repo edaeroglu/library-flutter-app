@@ -22,27 +22,25 @@ abstract class BookDetailsViewModel extends State<BookDetailsView>
   }
 
   @override
-  void initState() {
+  Future<void> initState() async {
     super.initState();
-    initCategoryService();
-    getListContent();
+    // await initCategoryService();
+    // getListContent();
   }
 
   Future<void> initCategoryService() async {
     categoryService = CategoryService(service);
   }
 
-  Future<void> getListContent() async {
+  Future<void> getListContent(int index) async {
     changeLoading();
-    contentList = await categoryService.getContentItem() ?? [];
+    contentList = await categoryService.getContents(index) ?? [];
     changeLoading();
   }
 }
 
-
-
 class BookDetailsView extends StatefulWidget {
-  const BookDetailsView({super.key});
+  const BookDetailsView({super.key, required ContentModel homeViewModel});
 
   @override
   State<BookDetailsView> createState() => _BookDetailsViewState();
@@ -92,14 +90,24 @@ class _BookDetailsViewState extends State<BookDetailsView> {
           children: [
             Column(
               children: [
-                Image.asset(
-                  'assets/images/dune.png',
-                  width: 150.w,
-                  height: 225.h,
-                  fit: BoxFit.cover,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Image.asset(
+                      'assets/images/dune.png',
+                      width: 150.w,
+                      height: 225.h,
+                      fit: BoxFit.cover,
+                    ),
+                    Icon(
+                      Icons.favorite_border,
+                      color: Color(0xff6251DD),
+                    ),
+                  ],
                 ),
                 Text(
-                  "Dune",
+                  "",
+                  // contentList[index].name ?? "",
                   style: GoogleFonts.manrope(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,

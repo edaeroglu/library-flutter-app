@@ -33,7 +33,7 @@ class _LoginViewState extends State<LoginView> {
   Future<String?> _login(String email, String password) async {
     try {
       final response = await _dio.post(
-        'https://assign-api.piton.com.tr/api/rest',
+        '/login',
         data: {
           'email': email,
           'password': password,

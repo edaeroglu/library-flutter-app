@@ -1,7 +1,8 @@
+import 'dart:convert';
+
 import 'package:mobile_app/feature/best%20seller/view/best_seller.dart';
-import '../../../product/model/contents_model.dart';
-import '../../../product/service/project_dio.dart';
-import '../../home/service/category_service.dart';
+import 'package:mobile_app/product/service/project_dio.dart';
+
 
 
 //  class BestSellerViewModel extends State<BestSellerView>

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/feature/home/view/home_view.dart';
+import 'package:mobile_app/feature/home/view_model/home_viewmodel.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 import '../../../product/model/contents_model.dart';
@@ -26,16 +27,16 @@ abstract class BestSellerViewModel extends State<BestSellerView>
   void initState() {
     super.initState();
     initCategoryService();
-    getListContent();
+    // getListContent();
   }
 
   Future<void> initCategoryService() async {
     categoryService = CategoryService(service);
   }
 
-  Future<void> getListContent() async {
+  Future<void> getListContent(int index) async {
     changeLoading();
-    contentList = await categoryService.getContentItem() ?? [];
+    contentList = await categoryService.getContents(index) ?? [];
     changeLoading();
   }
 }
@@ -49,6 +50,7 @@ class BestSellerView extends StatefulWidget {
 
 class _BestSellerViewState extends BestSellerViewModel {
   List<ContentModel> contentList = [];
+  late final HomeViewModel homeViewModel;
 
   @override
   void initState() {
@@ -106,7 +108,9 @@ class _BestSellerViewState extends BestSellerViewModel {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => BookDetailsView()));
+                                  builder: (context) => BookDetailsView(
+                                    homeViewModel: contentList[index]
+                                  )));
                         },
                         child: Card(
                           elevation: 0,
@@ -119,46 +123,57 @@ class _BestSellerViewState extends BestSellerViewModel {
                                 height: 225.h,
                                 fit: BoxFit.cover,
                               ),
-                              Padding(
-                                padding: EdgeInsets.symmetric(horizontal: 10.w),
-                                child: Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          contentList?[index].name ?? "",
-                                          style: GoogleFonts.manrope(
-                                              fontSize: 10.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xff090937)),
+                              Expanded(
+                                child: Padding(
+                                  padding:
+                                      EdgeInsets.symmetric(horizontal: 10.w),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Expanded(
+                                        child: Column(
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Expanded(
+                                              child: Text(
+                                                contentList?[index].name ?? "",
+                                                overflow: TextOverflow.ellipsis,
+                                                style: GoogleFonts.manrope(
+                                                    fontSize: 10.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Color(0xff090937)),
+                                              ),
+                                            ),
+                                            Expanded(
+                                              child: Text(
+                                                contentList?[index].author ??
+                                                    "",
+                                                style: GoogleFonts.manrope(
+                                                    fontSize: 8.sp,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Color(0xff090937)
+                                                        .withOpacity(0.6)),
+                                              ),
+                                            ),
+                                          ],
                                         ),
-                                        Text(
-                                          contentList?[index].author ?? "",
-                                          style: GoogleFonts.manrope(
-                                              fontSize: 8.sp,
-                                              fontWeight: FontWeight.w600,
-                                              color: Color(0xff090937)
-                                                  .withOpacity(0.6)),
-                                        ),
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          contentList?[index]
-                                                  .price
-                                                  .toString() ??
-                                              "",
-                                          style:
-                                              GeneralTextStyle.PriceBSTextStyle,
-                                        ),
-                                      ],
-                                    )
-                                  ],
+                                      ),
+                                      Row(
+                                        children: [
+                                          Text(
+                                            contentList?[index]
+                                                    .price
+                                                    .toString() ??
+                                                "",
+                                            style: GeneralTextStyle
+                                                .PriceBSTextStyle,
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
                                 ),
                               )
                             ],

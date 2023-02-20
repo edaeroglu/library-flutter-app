@@ -3,19 +3,14 @@ import 'package:mobile_app/feature/home/model/category_model.dart';
 import 'package:mobile_app/feature/home/service/category_service.dart';
 import 'package:mobile_app/feature/home/view/home_view.dart';
 import 'package:mobile_app/product/service/project_dio.dart';
-
 import '../../../product/model/contents_model.dart';
-import '../../book details/view/book_details_view.dart';
 
 abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   late final ICategoryService categoryService;
 
   List<CategoryModel> categoryList = [];
   List<ContentModel> contentList = [];
-  List<ContentModel> contentClassics = [];
-  List<ContentModel> contentChildren = [];
-  List<ContentModel> contentPhilosophy = [];
-
+  List<List<ContentModel>> allContents = [];
 
   bool isLoading = false;
 
@@ -25,50 +20,40 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
     });
   }
 
+  //  @override
+  // Future<void> initState() async {
+  //   super.initState();
+  //   await initCategoryService();
+  //   getListContent();
+  // }
+
   @override
   void initState() async {
-    categoryService = CategoryService(service);
-    getList();
-    await getListContent();
-    getListClassics();
-    getListChildren();
-    getListPhilosophy();
+    await getList();
+
     // TODO: implement initState
     super.initState();
   }
 
   Future<void> getList() async {
     changeLoading();
+    categoryService = CategoryService(service);
     categoryList = await categoryService.getCategories() ?? [];
+    await getListContent(categoryList.length);
     changeLoading();
   }
 
-  Future<void> getListContent() async {
-    changeLoading();
-    contentList = await categoryService.getContentItem() ?? [];
-    
-    changeLoading();
+  Future<void> getListContent(int count) async {
+    allContents = List.generate(count, (index) => []);
+    for (var i = 0; i < count; i++) {
+      // allContents.add(getListContent(count) as List<ContentModel>);
+      allContents[i] = await categoryService.getContents(i) ?? [];
+    }
+    allContents.forEach((element) {
+      print(element.first.name);
+    });
+    // contentList = await categoryService.getContents(count) ?? [];
   }
-
-  Future<void> getListClassics() async {
-    changeLoading();
-    contentClassics = await categoryService.getContentClassics() ?? [];
-    changeLoading();
-  }
-
-  Future<void> getListChildren() async {
-    changeLoading();
-    contentChildren = await categoryService.getContentChildren() ?? [];
-    changeLoading();
-  }
-
-  Future<void> getListPhilosophy() async {
-    changeLoading();
-    contentPhilosophy = await categoryService.getContentPhilosophy() ?? [];
-    changeLoading();
-  }
-  
-
 }
 
 

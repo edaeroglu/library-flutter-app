@@ -23,7 +23,7 @@ class _RegisterViewState extends State<RegisterView> {
   final _passwordController = TextEditingController();
 
   Future<RegisterModel> _submitRegisterForm() async {
-    final url = 'https://example.com/register';
+    final url = '/register';
     final formData = {
       'name': _nameController.text,
       'email': _emailController.text,
