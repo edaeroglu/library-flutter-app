@@ -26,6 +26,7 @@ class MailBox {
 
 class PasswordBox {
   final passwordBoxDesign = TextFormField(
+    
     obscureText: true,
     decoration: const InputDecoration(
       filled: true,

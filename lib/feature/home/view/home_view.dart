@@ -6,6 +6,7 @@ import 'package:mobile_app/feature/best%20seller/view/best_seller.dart';
 import 'package:mobile_app/feature/home/view_model/home_viewmodel.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 
+import '../../../product/model/contents_model.dart';
 import '../../../product/text_style/text_style.dart';
 
 class HomeView extends StatefulWidget {
@@ -16,6 +17,8 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends HomeViewModel {
+  List<ContentModel> contentList = [];
+
   @override
   void initState() {
     super.initState();
@@ -130,7 +133,7 @@ class _HomeViewState extends HomeViewModel {
                             children: [
                               Text(
                                 categoryList[index].name ?? "",
-                                style: TextStyle(
+                                style: GoogleFonts.manrope(
                                   fontSize: 20.sp,
                                   fontWeight: FontWeight.w700,
                                   color: Color(0xff090937),
@@ -144,7 +147,7 @@ class _HomeViewState extends HomeViewModel {
                                             builder: (context) =>
                                                 BestSellerView()));
                                   },
-                                  child: Text(
+                                  child: const Text(
                                     'View All',
                                     style: TextStyle(color: Color(0xffEF6B4A)),
                                   ))
@@ -158,23 +161,49 @@ class _HomeViewState extends HomeViewModel {
                               itemCount: contentList.length,
                               scrollDirection: Axis.horizontal,
                               itemBuilder: (BuildContext context, int index) {
+                                // if (index < contentList.length) {
+                                // } else if (index <
+                                //     contentList.length +
+                                //         contentClassics.length) {
+                                // } else if (index <
+                                //     contentList.length +
+                                //         contentClassics.length +
+                                //         contentChildren.length) {
+                                // } else {}
                                 return Card(
+                                  elevation: 0,
+                                  color: Color(0xffF4F4FF),
                                   child: Row(
                                     children: [
                                       Image.asset('assets/images/dune.png'),
                                       Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
-                                          Text(
-                                            contentList[index].name ?? "",
+                                          Padding(
+                                            padding: EdgeInsets.only(
+                                                top: 10.h, bottom: 4.h),
+                                            child: Text(
+                                              contentList[index].name ?? "",
+                                              style: GeneralTextStyle
+                                                  .WriterTextStyle,
+                                            ),
                                           ),
                                           Text(
                                             contentList[index].author ?? "",
+                                            style:
+                                                GeneralTextStyle.BookTextStyle,
+                                          ),
+                                          SizedBox(
+                                            height: 45.h,
                                           ),
                                           Text(
                                             contentList[index]
                                                     .price
                                                     .toString() ??
                                                 "",
+                                            style:
+                                                GeneralTextStyle.PriceTextStyle,
                                           )
                                         ],
                                       ),
@@ -191,6 +220,7 @@ class _HomeViewState extends HomeViewModel {
         ));
   }
 }
+
 //SingleChildScrollView(
       //   child: isLoading
       //       ? Center(child: CircularProgressIndicator())

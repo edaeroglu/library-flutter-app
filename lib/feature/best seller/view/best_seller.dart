@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/feature/home/view/home_view.dart';
+import 'package:mobile_app/product/text_style/text_style.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 import '../../../product/model/contents_model.dart';
 import '../../../product/service/project_dio.dart';
@@ -98,8 +99,7 @@ class _BestSellerViewState extends BestSellerViewModel {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemCount:
-                        contentList?.length, //widget.contentList?.length,
+                    itemCount: contentList.length, //widget.contentList?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
@@ -109,6 +109,7 @@ class _BestSellerViewState extends BestSellerViewModel {
                                   builder: (context) => BookDetailsView()));
                         },
                         child: Card(
+                          elevation: 0,
                           color: const Color(0xffF4F4FF),
                           child: Column(
                             children: [
@@ -118,30 +119,47 @@ class _BestSellerViewState extends BestSellerViewModel {
                                 height: 225.h,
                                 fit: BoxFit.cover,
                               ),
-                              Row(
-                                children: [
-                                  Column(
-                                    children: [
-                                      Text(
-                                        contentList?[index].name ?? "",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                      Text(
-                                        contentList?[index].author ?? "",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    ],
-                                  ),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        contentList?[index].price.toString() ??
-                                            "",
-                                        style: TextStyle(color: Colors.black),
-                                      ),
-                                    ],
-                                  )
-                                ],
+                              Padding(
+                                padding: EdgeInsets.symmetric(horizontal: 10.w),
+                                child: Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Text(
+                                          contentList?[index].name ?? "",
+                                          style: GoogleFonts.manrope(
+                                              fontSize: 10.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xff090937)),
+                                        ),
+                                        Text(
+                                          contentList?[index].author ?? "",
+                                          style: GoogleFonts.manrope(
+                                              fontSize: 8.sp,
+                                              fontWeight: FontWeight.w600,
+                                              color: Color(0xff090937)
+                                                  .withOpacity(0.6)),
+                                        ),
+                                      ],
+                                    ),
+                                    Row(
+                                      children: [
+                                        Text(
+                                          contentList?[index]
+                                                  .price
+                                                  .toString() ??
+                                              "",
+                                          style:
+                                              GeneralTextStyle.PriceBSTextStyle,
+                                        ),
+                                      ],
+                                    )
+                                  ],
+                                ),
                               )
                             ],
                           ),

@@ -5,6 +5,7 @@ import 'package:mobile_app/feature/home/view/home_view.dart';
 import 'package:mobile_app/product/service/project_dio.dart';
 
 import '../../../product/model/contents_model.dart';
+import '../../book details/view/book_details_view.dart';
 
 abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   late final ICategoryService categoryService;
@@ -45,6 +46,7 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   Future<void> getListContent() async {
     changeLoading();
     contentList = await categoryService.getContentItem() ?? [];
+    
     changeLoading();
   }
 
@@ -65,6 +67,8 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
     contentPhilosophy = await categoryService.getContentPhilosophy() ?? [];
     changeLoading();
   }
+  
+
 }
 
 

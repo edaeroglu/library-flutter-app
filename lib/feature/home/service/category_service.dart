@@ -33,12 +33,11 @@ abstract class ICategoryService {
   Future<List<ContentModel>?> getContentClassics();
   Future<List<ContentModel>?> getContentChildren();
   Future<List<ContentModel>?> getContentPhilosophy();
-
-
 }
 
 class CategoryService extends ICategoryService {
   CategoryService(Dio dio) : super(dio);
+  List<dynamic> categoriesList = [];
 
   @override
   Future<List<CategoryModel>?> getCategories() async {
@@ -57,6 +56,7 @@ class CategoryService extends ICategoryService {
     final response = await dio.get('/products/1');
     if (response.statusCode == 200) {
       final jsonBody = response.data["product"];
+      //categoriesList.addAll(response.data);
       if (jsonBody is List) {
         return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
       }
@@ -69,6 +69,8 @@ class CategoryService extends ICategoryService {
     final response = await dio.get('/products/2');
     if (response.statusCode == 200) {
       final jsonBody = response.data["product"];
+      //categoriesList.addAll(response.data);
+
       if (jsonBody is List) {
         return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
       }
@@ -81,6 +83,8 @@ class CategoryService extends ICategoryService {
     final response = await dio.get('/products/3');
     if (response.statusCode == 200) {
       final jsonBody = response.data["product"];
+      //categoriesList.addAll(response.data);
+
       if (jsonBody is List) {
         return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
       }
@@ -93,13 +97,18 @@ class CategoryService extends ICategoryService {
     final response = await dio.get('/products/4');
     if (response.statusCode == 200) {
       final jsonBody = response.data["product"];
+      //categoriesList.addAll(response.data);
+
       if (jsonBody is List) {
         return jsonBody.map((json) => ContentModel.fromJson(json)).toList();
       }
     }
     return null;
   }
+
+  
 }
+
 
 //--------------------------------------------------------------------------------------------------------
 
