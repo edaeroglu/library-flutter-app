@@ -54,16 +54,8 @@ class _BookDetailsViewState extends State<BookDetailsView> {
     super.initState();
   }
 
-  // handleLikePost() {
-  //   bool _isLiked = likes[currentUserId] == true;
-  //   if (_isLiked) {
-  //     setState(() {
-  //       likeCount -= -1;
-  //       _isLiked = false;
-  //       likes[currentUserId] = false;
-  //     });
-  //   }
-  // }
+  Color _iconColor = Colors.blue;
+  Icon defaultIcon = Icon(Icons.favorite_border);
 
   @override
   Widget build(BuildContext context) {
@@ -110,7 +102,20 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                       fit: BoxFit.cover,
                     ),
                     IconButton(
-                        onPressed: () {}, icon: Icon(Icons.favorite_border))
+                      icon: defaultIcon,
+                      color: _iconColor,
+                      onPressed: () {
+                        setState(() {
+                          _iconColor = _iconColor == Color(0xff6251DD)
+                              ? Colors.green
+                              : Color(0xff6251DD); // renk değiştirme işlemi
+                          defaultIcon =
+                              defaultIcon == Icon(Icons.favorite_border)
+                                  ? Icon(Icons.favorite)
+                                  : Icon(Icons.favorite_border);
+                        });
+                      },
+                    ),
                     // IconButton(
                     //   onPressed: () {
                     //     setState(() {
@@ -168,6 +173,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(
                       content.description ?? "",
+                      maxLines: 8,
                       style: GoogleFonts.manrope(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,

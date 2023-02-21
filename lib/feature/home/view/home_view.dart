@@ -19,8 +19,14 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends HomeViewModel {
   List<ContentModel> contentList = [];
-
-
+  List<String> buttonContents = [
+    "All",
+    "Classics",
+    "Horror",
+    "Romance",
+  ];
+  int _selectedButtonIndex = 0;
+  int _selectedTextIndex = 0;
 
   @override
   void initState() {
@@ -65,63 +71,36 @@ class _HomeViewState extends HomeViewModel {
               SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                  children: [
-                    ElevatedButton(
-                        onPressed: () {},
-
-                        // ignore: sort_child_properties_last
-                        child: Text(
-                          "All",
-                          style: GeneralTextStyle.CategoryTextStyle,
+                  mainAxisAlignment: MainAxisAlignment.spaceAround,
+                  children: List.generate(
+                    buttonContents.length,
+                    (index) => Padding(
+                      padding: EdgeInsets.only(right: 10.w),
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setState(() {
+                            _selectedButtonIndex = index;
+                          });
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: _selectedButtonIndex == index
+                              ? Color(0xff6251DD) // selected button color
+                              : Color(0xffF4F4FF), // unselected button color
+                          elevation: 0,
                         ),
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xff6251DD), elevation: 0)),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffF4F4FF), elevation: 0),
                         child: Text(
-                          'Classics',
-                          style: GeneralTextStyle.CategoryTextStyle,
-                        )),
-                    SizedBox(
-                      width: 10.w,
+                          buttonContents[index],
+                          style: GoogleFonts.manrope(
+                            fontSize: 16.sp,
+                            fontWeight: FontWeight.w400,
+                            color: _selectedButtonIndex == index
+                                ? Color(0xffFFFFFF) // selected button color
+                                : Color(0xff090937).withOpacity(0.6),
+                          ),
+                        ),
+                      ),
                     ),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                        child: Text(
-                          'Horror',
-                          style: GeneralTextStyle.CategoryTextStyle,
-                        )),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                    ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                            backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                        child: Text(
-                          'Romance',
-                          style: GeneralTextStyle.CategoryTextStyle,
-                        )),
-                    // ElevatedButton(
-                    //     onPressed: () {},
-                    //     style: ElevatedButton.styleFrom(
-                    //         backgroundColor: Color(0xffF4F4FF), elevation: 0),
-                    //     child: Text(
-                    //       'Children',
-                    //       style: GeneralTextStyle.CategoryTextStyle,
-                    //     )),
-                    SizedBox(
-                      width: 10.w,
-                    ),
-                  ],
+                  ),
                 ),
               ),
               SearchBox().searchBoxDesign,
@@ -151,7 +130,11 @@ class _HomeViewState extends HomeViewModel {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   BestSellerView(
-                                                    contentList:allContents[index], title: categoryList[index].name ?? "",
+                                                    contentList:
+                                                        allContents[index],
+                                                    title: categoryList[index]
+                                                            .name ??
+                                                        "",
                                                   )));
                                     },
                                     child: const Text(

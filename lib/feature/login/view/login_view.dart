@@ -1,6 +1,4 @@
 import 'dart:core';
-
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -8,7 +6,6 @@ import 'package:mobile_app/feature/login/view_model/login_viewmodel.dart';
 import 'package:mobile_app/feature/register/view/register_view.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/padding/padding.dart';
-import 'package:mobile_app/product/service/project_dio.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
 
 import '../../home/view/home_view.dart';
