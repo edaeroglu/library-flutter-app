@@ -30,7 +30,6 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   @override
   void initState() async {
     await getList();
-
     // TODO: implement initState
     super.initState();
   }
@@ -48,22 +47,25 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
     for (var i = 0; i < count; i++) {
       // allContents.add(getListContent(count) as List<ContentModel>);
       allContents[i] = await categoryService.getContents(i) ?? [];
+      await getListProduct(allContents[i]);
     }
-    allContents.forEach((element) {
-      print(element.first.name);
-    });
+
     // contentList = await categoryService.getContents(count) ?? [];
   }
+
+  Future<void> getListProduct(List<ContentModel> productImage) async {
+    await Future.forEach(productImage, (element) async {
+      element.cover =
+          await categoryService.getProductImage(cover: element.cover ?? "");
+      productImage.firstWhere((element2) => element.id == element2.id).cover =
+          element.cover;
+    });
+  }
+
+ 
 }
 
 
 
 
 
-
-// class CategoryViewModel {
-//   late final CategoryService categoryService;
-//   List<CategoryModel> categoryList = [];
-//   Future<void> getList() async {
-//   }
-// }

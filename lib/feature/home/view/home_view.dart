@@ -147,7 +147,9 @@ class _HomeViewState extends HomeViewModel {
                                           context,
                                           MaterialPageRoute(
                                               builder: (context) =>
-                                                  BestSellerView()));
+                                                  BestSellerView(
+                                                    contentList:allContents[index],
+                                                  )));
                                     },
                                     child: const Text(
                                       'View All',
@@ -171,7 +173,9 @@ class _HomeViewState extends HomeViewModel {
                                     color: Color(0xffF4F4FF),
                                     child: Row(
                                       children: [
-                                        Image.asset('assets/images/dune.png'),
+                                        Image.network(
+                                            allContents[index][index2].cover ??
+                                                ""),
                                         Column(
                                           crossAxisAlignment:
                                               CrossAxisAlignment.start,

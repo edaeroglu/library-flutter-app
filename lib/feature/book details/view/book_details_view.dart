@@ -2,62 +2,61 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
-
 import '../../../product/model/contents_model.dart';
-import '../../../product/service/project_dio.dart';
 import '../../best seller/view/best_seller.dart';
-import '../../home/service/category_service.dart';
 
-abstract class BookDetailsViewModel extends State<BookDetailsView>
-    with ProjectDioMixin {
-  late final ICategoryService categoryService;
+// abstract class BookDetailsViewModel extends State<BookDetailsView>
+//     with ProjectDioMixin {
+//   late final ICategoryService categoryService;
 
-  List<ContentModel> contentList = [];
-  bool isLoading = false;
+//   List<ContentModel> contentList = [];
+//   bool isLoading = false;
 
-  void changeLoading() {
-    setState(() {
-      isLoading = !isLoading;
-    });
-  }
+//   void changeLoading() {
+//     setState(() {
+//       isLoading = !isLoading;
+//     });
+//   }
 
-  @override
-  Future<void> initState() async {
-    super.initState();
-    // await initCategoryService();
-    // getListContent();
-  }
+//   @override
+//   Future<void> initState() async {
+//     super.initState();
+//     // await initCategoryService();
+//     // getListContent();
+//   }
 
-  Future<void> initCategoryService() async {
-    categoryService = CategoryService(service);
-  }
+//   Future<void> initCategoryService() async {
+//     categoryService = CategoryService(service);
+//   }
 
-  Future<void> getListContent(int index) async {
-    changeLoading();
-    contentList = await categoryService.getContents(index) ?? [];
-    changeLoading();
-  }
-}
+//   Future<void> getListContent(int index) async {
+//     changeLoading();
+//     contentList = await categoryService.getContents(index) ?? [];
+//     changeLoading();
+//   }
+// }
 
 class BookDetailsView extends StatefulWidget {
-  const BookDetailsView({super.key, required ContentModel homeViewModel});
+  const BookDetailsView({super.key, required this.contentList});
+  final List<ContentModel> contentList;
 
   @override
   State<BookDetailsView> createState() => _BookDetailsViewState();
 }
 
 class _BookDetailsViewState extends State<BookDetailsView> {
-  List<ContentModel> contentList = [];
-
+  late final List<ContentModel> contentList;
+  
+ 
   @override
   void initState() {
+    contentList = widget.contentList;
+
     super.initState();
   }
 
   @override
-  Widget build(
-    BuildContext context,
-  ) {
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         toolbarHeight: 92.h,
@@ -65,8 +64,12 @@ class _BookDetailsViewState extends State<BookDetailsView> {
         iconTheme: IconThemeData(color: Color(0xff090937)),
         leading: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => BestSellerView()));
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                      builder: (context) => BestSellerView(
+                            contentList: [],
+                          )));
             },
             child: const Icon(Icons.arrow_back_ios)),
         elevation: 0,
@@ -93,8 +96,8 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Image.asset(
-                      'assets/images/dune.png',
+                    Image.network(
+                      "",
                       width: 150.w,
                       height: 225.h,
                       fit: BoxFit.cover,
@@ -107,7 +110,6 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                 ),
                 Text(
                   "",
-                  // contentList[index].name ?? "",
                   style: GoogleFonts.manrope(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,

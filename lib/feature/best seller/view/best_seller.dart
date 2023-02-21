@@ -6,54 +6,21 @@ import 'package:mobile_app/feature/home/view_model/home_viewmodel.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 import '../../../product/model/contents_model.dart';
-import '../../../product/service/project_dio.dart';
 import '../../book details/view/book_details_view.dart';
-import '../../home/service/category_service.dart';
-
-abstract class BestSellerViewModel extends State<BestSellerView>
-    with ProjectDioMixin {
-  late final ICategoryService categoryService;
-
-  List<ContentModel> contentList = [];
-  bool isLoading = false;
-
-  void changeLoading() {
-    setState(() {
-      isLoading = !isLoading;
-    });
-  }
-
-  @override
-  void initState() {
-    super.initState();
-    initCategoryService();
-    // getListContent();
-  }
-
-  Future<void> initCategoryService() async {
-    categoryService = CategoryService(service);
-  }
-
-  Future<void> getListContent(int index) async {
-    changeLoading();
-    contentList = await categoryService.getContents(index) ?? [];
-    changeLoading();
-  }
-}
 
 class BestSellerView extends StatefulWidget {
-  BestSellerView({super.key});
-
+  BestSellerView({super.key, required this.contentList});
+  final List<ContentModel> contentList;
   @override
   State<BestSellerView> createState() => _BestSellerViewState();
 }
 
-class _BestSellerViewState extends BestSellerViewModel {
-  List<ContentModel> contentList = [];
-  late final HomeViewModel homeViewModel;
+class _BestSellerViewState extends State<BestSellerView> {
+  late final List<ContentModel> contentList;
 
   @override
   void initState() {
+    contentList = widget.contentList;
     super.initState();
   }
 
@@ -76,7 +43,7 @@ class _BestSellerViewState extends BestSellerViewModel {
             padding: EdgeInsets.only(right: 20.w),
             child: Center(
                 child: Text(
-              'Best Seller',
+              "Best Seller",
               style: GoogleFonts.manrope(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
@@ -101,7 +68,8 @@ class _BestSellerViewState extends BestSellerViewModel {
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,
                     ),
-                    itemCount: contentList.length, //widget.contentList?.length,
+                    itemCount: contentList.length,
+                    //widget.contentList?.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
@@ -109,16 +77,16 @@ class _BestSellerViewState extends BestSellerViewModel {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BookDetailsView(
-                                    homeViewModel: contentList[index]
-                                  )));
+                                        contentList: contentList,
+                                      )));
                         },
                         child: Card(
                           elevation: 0,
                           color: const Color(0xffF4F4FF),
                           child: Column(
                             children: [
-                              Image.asset(
-                                'assets/images/dune.png',
+                              Image.network(
+                                contentList[index].cover ?? "",
                                 width: 150.w,
                                 height: 225.h,
                                 fit: BoxFit.cover,
@@ -182,72 +150,52 @@ class _BestSellerViewState extends BestSellerViewModel {
                       );
                     }),
               ),
-              // child: GridView.builder(
-              //   crossAxisSpacing: 10,
-              //   mainAxisSpacing: 10,
-              //   crossAxisCount: 2,
-              //   childAspectRatio: 0.6,
-
-              //   children: [
-
-              //     GridCardWidget(
-
-              //       contentList: contentList,
-              //     ),
-              //     GridCardWidget(),
-              //     GridCardWidget(),
-              //     GridCardWidget(),
-              //     GridCardWidget(),
-              //     GridCardWidget(),
-              //     GridCardWidget(),
-              //   ],
-              // ),
-            )
-            // Row(
-            //   children: [
-            //     SizedBox(
-            //       width: 170.w,
-            //       height: 284.h,
-            //       child: Column(
-            //         children: [
-            //           Padding(
-            //             padding: const EdgeInsets.all(10),
-            //             child: Image.asset(
-            //               'assets/images/dune.png',
-            //               width: 150.w,
-            //               height: 225.h,
-            //             ),
-            //           ),
-            //           Text('Dune'),
-            //           Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //             children: [Text('Frank Herbert'), Text('87,75')],
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //     SizedBox(
-            //       width: 170.w,
-            //       height: 284.h,
-            //       child: Column(
-            //         children: [
-            //           Padding(
-            //             padding: const EdgeInsets.all(10),
-            //             child: Image.asset('assets/images/dune.png'),
-            //           ),
-            //           Text('Dune'),
-            //           Row(
-            //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            //             children: [Text('Frank Herbert'), Text('87,75')],
-            //           )
-            //         ],
-            //       ),
-            //     ),
-            //   ],
-            // )
+            ),
           ],
         ),
       ),
     );
+    // Row(
+    //   children: [
+    //     SizedBox(
+    //       width: 170.w,
+    //       height: 284.h,
+    //       child: Column(
+    //         children: [
+    //           Padding(
+    //             padding: const EdgeInsets.all(10),
+    //             child: Image.asset(
+    //               'assets/images/dune.png',
+    //               width: 150.w,
+    //               height: 225.h,
+    //             ),
+    //           ),
+    //           Text('Dune'),
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             children: [Text('Frank Herbert'), Text('87,75')],
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //     SizedBox(
+    //       width: 170.w,
+    //       height: 284.h,
+    //       child: Column(
+    //         children: [
+    //           Padding(
+    //             padding: const EdgeInsets.all(10),
+    //             child: Image.asset('assets/images/dune.png'),
+    //           ),
+    //           Text('Dune'),
+    //           Row(
+    //             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //             children: [Text('Frank Herbert'), Text('87,75')],
+    //           )
+    //         ],
+    //       ),
+    //     ),
+    //   ],
+    // )
   }
 }

@@ -30,6 +30,9 @@ abstract class ICategoryService {
 
   Future<List<CategoryModel>?> getCategories();
   Future<List<ContentModel>?> getContents(int index);
+  Future<String> getProductImage({required String cover});
+
+  // Future<String> getProductImage({required String cover});
 }
 
 class CategoryService extends ICategoryService {
@@ -62,5 +65,23 @@ class CategoryService extends ICategoryService {
       return null;
     }
     return null;
+
+    
+  }
+
+  @override
+  Future<String> getProductImage({required String cover}) async {
+    try {
+      final response =
+          await dio.post('/cover_image', data: {'fileName': cover});
+      if (response.statusCode == 200) {
+        final jsonBody = response.data["action_product_image"]["url"];
+        return jsonBody;
+      }
+      return "";
+    } on DioError catch (e) {
+      print(e.response);
+      return "";
+    }
   }
 }
