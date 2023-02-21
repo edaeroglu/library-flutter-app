@@ -2,14 +2,16 @@ import 'dart:core';
 
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/scheduler.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:mobile_app/feature/login/view_model/login_viewmodel.dart';
 import 'package:mobile_app/feature/register/view/register_view.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/padding/padding.dart';
+import 'package:mobile_app/product/service/project_dio.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
-import 'package:mobile_app/product/textformfield/text_form_field.dart';
+
+import '../../home/view/home_view.dart';
 
 class LoginView extends StatefulWidget {
   const LoginView({super.key});
@@ -18,42 +20,9 @@ class LoginView extends StatefulWidget {
   State<LoginView> createState() => _LoginViewState();
 }
 
-class _LoginViewState extends State<LoginView> {
+class _LoginViewState extends LoginViewModel {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  late Dio _dio;
-
-  @override
-  void initState() {
-    super.initState();
-    _dio = Dio(); // Dio nesnesi oluşturuyoruz
-  }
-
-  Future<String?> _login(String email, String password) async {
-    try {
-      final response = await _dio.post(
-        '/login',
-        data: {
-          'email': email,
-          'password': password,
-        },
-      );
-
-      final data = response.data;
-
-      if (data != null && data['token'] != null) {
-        return data['token'];
-      } else {
-        return null;
-      }
-    } on DioError catch (e) {
-      // Hata durumlarında mesaj göstermek için hata nesnesini kullanabiliriz.
-      final errorMessage = e.response?.data['message'] ?? 'Bir hata oluştu.';
-      print(errorMessage);
-      return null;
-    }
-  }
 
   bool _isSelected = false;
   @override
@@ -113,6 +82,7 @@ class _LoginViewState extends State<LoginView> {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: TextFormField(
+                          
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: const InputDecoration(
@@ -157,15 +127,29 @@ class _LoginViewState extends State<LoginView> {
                             minimumSize: Size(double.infinity, 60.h),
                             backgroundColor: const Color(0xFFEF6B4A)),
                         onPressed: () async {
-                          final email = _emailController.text.trim();
-                          final password = _passwordController.text.trim();
+                          await loginButton(
+                            _emailController.text.trim(),
+                            _passwordController.text.trim(),
+                          );
 
-                          final token = await _login(email, password);
+                          if (token!.isEmpty || token == null) {
+                            // ignore: use_build_context_synchronously
+                            await showDialog(
+                              context: context,
+                              builder: (context) => const AlertDialog(
+                                title: Text("Error"),
+                                contentPadding: EdgeInsets.all(20),
+                              ),
+                            );
+                            
 
-                          if (token != null) {
-                            // Giriş başarılı, token kaydedilir ve yeni sayfaya yönlendirilir.
+                            // Kullanıcıya geri bildirim verilecek
                           } else {
-                            // Hata durumunda kullanıcıya mesaj gösterilir.
+                            Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(
+                                    builder: (context) => HomeView()));
+
+                            //login oldu sayfaya yönlendir
                           }
                         },
                         child: Text(

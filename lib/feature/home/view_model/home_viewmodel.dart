@@ -45,12 +45,9 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   Future<void> getListContent(int count) async {
     allContents = List.generate(count, (index) => []);
     for (var i = 0; i < count; i++) {
-      // allContents.add(getListContent(count) as List<ContentModel>);
       allContents[i] = await categoryService.getContents(i) ?? [];
       await getListProduct(allContents[i]);
     }
-
-    // contentList = await categoryService.getContents(count) ?? [];
   }
 
   Future<void> getListProduct(List<ContentModel> productImage) async {

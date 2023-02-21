@@ -37,23 +37,33 @@ import '../../best seller/view/best_seller.dart';
 // }
 
 class BookDetailsView extends StatefulWidget {
-  const BookDetailsView({super.key, required this.contentList});
-  final List<ContentModel> contentList;
+  const BookDetailsView({super.key, required this.content});
+  final ContentModel content;
 
   @override
   State<BookDetailsView> createState() => _BookDetailsViewState();
 }
 
 class _BookDetailsViewState extends State<BookDetailsView> {
-  late final List<ContentModel> contentList;
-  
- 
+  late final ContentModel content;
+  bool isChange = false;
   @override
   void initState() {
-    contentList = widget.contentList;
+    content = widget.content;
 
     super.initState();
   }
+
+  // handleLikePost() {
+  //   bool _isLiked = likes[currentUserId] == true;
+  //   if (_isLiked) {
+  //     setState(() {
+  //       likeCount -= -1;
+  //       _isLiked = false;
+  //       likes[currentUserId] = false;
+  //     });
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -64,12 +74,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
         iconTheme: IconThemeData(color: Color(0xff090937)),
         leading: GestureDetector(
             onTap: () {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => BestSellerView(
-                            contentList: [],
-                          )));
+              Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios)),
         elevation: 0,
@@ -79,10 +84,12 @@ class _BookDetailsViewState extends State<BookDetailsView> {
             child: Center(
                 child: Text(
               'Book Details',
+              maxLines: 8,
               style: GoogleFonts.manrope(
-                  fontSize: 20.sp,
-                  fontWeight: FontWeight.w700,
-                  color: Color(0xff090937)),
+                fontSize: 20.sp,
+                fontWeight: FontWeight.w700,
+                color: Color(0xff090937),
+              ),
             )),
           )
         ],
@@ -97,19 +104,34 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Image.network(
-                      "",
+                      content.cover ?? "",
                       width: 150.w,
                       height: 225.h,
                       fit: BoxFit.cover,
                     ),
-                    Icon(
-                      Icons.favorite_border,
-                      color: Color(0xff6251DD),
-                    ),
+                    IconButton(
+                        onPressed: () {}, icon: Icon(Icons.favorite_border))
+                    // IconButton(
+                    //   onPressed: () {
+                    //     setState(() {
+                    //       isChange = !isChange;
+                    //     });
+
+                    //   },
+
+                    //     icon: Icon(
+                    //       isChange == true
+                    //         ? const Icon(Icons.favorite)
+                    //         : Icons.favorite_border
+                    //       // Icons.favorite_border,
+                    //       // color: Color(0xff6251DD),
+                    //     ),
+
+                    // )
                   ],
                 ),
                 Text(
-                  "",
+                  content.name ?? "",
                   style: GoogleFonts.manrope(
                     fontSize: 20.sp,
                     fontWeight: FontWeight.w700,
@@ -117,7 +139,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                   ),
                 ),
                 Text(
-                  "Frank Herbert",
+                  content.author ?? "",
                   style: GoogleFonts.manrope(
                     fontSize: 16.sp,
                     fontWeight: FontWeight.w600,
@@ -145,8 +167,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(
-                      "Dune is set in the distant future amidst a feudal interstellar society in which various noble houses control planetary fiefs. It tells the story of young Paul Atreides, whose family accepts the stewardship of the planet Arrakis. While the planet is an inhospitable and sparsely populated desert wasteland, it is the only source of melange, or spice, a drug that...",
-                      maxLines: 8,
+                      content.description ?? "",
                       style: GoogleFonts.manrope(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,

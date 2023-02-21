@@ -1,38 +1,19 @@
-// import 'package:flutter/material.dart';
-// import '../model/login_model.dart';
-// import '../service/login_service.dart';
+import 'package:flutter/material.dart';
+import 'package:mobile_app/feature/home/view/home_view.dart';
+import 'package:mobile_app/feature/login/service/login_service.dart';
+import 'package:mobile_app/feature/login/view/login_view.dart';
+import 'package:mobile_app/product/service/project_dio.dart';
 
+abstract class LoginViewModel extends State<LoginView> with ProjectDioMixin {
+  String? token;
 
-// class LoginViewModel extends ChangeNotifier {
-//   final LoginService _loginService = LoginService();
+  late final ILoginService loginService;
 
-//   LoginModel? _loginModel;
-//   bool _isLoading = false;
-//   String _errorMessage = '';
+  LoginViewModel() {
+    loginService = LoginService(service);
+  }
 
-//   LoginModel? get loginModel => _loginModel;
-//   bool get isLoading => _isLoading;
-//   String get errorMessage => _errorMessage;
-
-//   Future<void> login(String email, String password) async {
-//     _isLoading = true;
-//     _errorMessage = '';
-//     notifyListeners();
-
-//     try {
-//       _loginModel = await _loginService.login(email, password);
-//     } catch (error) {
-//       _errorMessage = error.toString();
-//     }
-
-//     _isLoading = false;
-//     notifyListeners();
-//   }
-// }
-// class LoginViewModel extends ChangeNotifier {
-//   final service = LoginService();
-//   TextEditingController email = TextEditingController();
-//   TextEditingController password = TextEditingController();
-
- 
-// }
+  Future<void> loginButton(String email, String password) async {
+    token = await loginService.login(email, password);
+  }
+}

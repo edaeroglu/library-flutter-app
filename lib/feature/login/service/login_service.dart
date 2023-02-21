@@ -1,27 +1,49 @@
-// import 'package:dio/dio.dart';
-// import '../model/login_model.dart';
+import 'package:dio/dio.dart';
 
-// class LoginService {
-//   static const _baseUrl = 'https://assign-api.piton.com.tr/api/rest';
 
-//   final Dio _dio = Dio(BaseOptions(baseUrl: _baseUrl));
+abstract class ILoginService {
+  ILoginService(this.dio);
+  final Dio dio;
 
-//   Future<LoginModel> login(String email, String password) async {
-//     try {
-//       final response = await _dio.post('/login', data: {
-//         'email': email,
-//         'password': password,
-//       });
-//       if (response.statusCode == 200) {
-//         return LoginModel.fromJson(response.data);
-//       } else {
-//         throw Exception('Failed to login');
-//       }
-//     } catch (error) {
-//       throw Exception('Failed to login: $error');
-//     }
-//   }
-// }
+  Future<String?> login(String email, String password);
+}
+
+class LoginService extends ILoginService {
+  LoginService(Dio dio) : super(dio);
+
+  @override
+  Future<String?> login(String email, String password) async {
+    try {
+      final response = await dio.post(
+        '/login',
+        data: {
+          'email': email,
+          'password': password,
+        },
+      );
+
+      final data = response.data;
+
+      if (data != null && data["action_login"]["token"] != null  ) {
+        return data["action_login"]["token"];
+      } else {
+        return null;
+      }
+
+      // if (data == null && data['token'] == null ) {
+      //   return null;
+      // } else {
+      //   return data['token'];
+      // }
+
+    } on DioError catch (e) {
+      // Hata durumlarında mesaj göstermek için hata nesnesini kullanabiliriz.
+      final errorMessage = e.response?.data['message'] ?? 'Bir hata oluştu.';
+      print(errorMessage);
+      return null;
+    }
+  }
+}
 // class LoginService {
 //   final String baseUrl = 'https://assign-api.piton.com.tr/api/rest';
 //   final dio = Dio();

@@ -2,15 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/feature/home/view/home_view.dart';
-import 'package:mobile_app/feature/home/view_model/home_viewmodel.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 import '../../../product/model/contents_model.dart';
 import '../../book details/view/book_details_view.dart';
 
+
 class BestSellerView extends StatefulWidget {
-  BestSellerView({super.key, required this.contentList});
+  BestSellerView({super.key, required this.contentList, required this.title});
   final List<ContentModel> contentList;
+  String title;
+
   @override
   State<BestSellerView> createState() => _BestSellerViewState();
 }
@@ -21,6 +23,7 @@ class _BestSellerViewState extends State<BestSellerView> {
   @override
   void initState() {
     contentList = widget.contentList;
+
     super.initState();
   }
 
@@ -43,7 +46,7 @@ class _BestSellerViewState extends State<BestSellerView> {
             padding: EdgeInsets.only(right: 20.w),
             child: Center(
                 child: Text(
-              "Best Seller",
+              widget.title,
               style: GoogleFonts.manrope(
                   fontSize: 20.sp,
                   fontWeight: FontWeight.w700,
@@ -77,7 +80,7 @@ class _BestSellerViewState extends State<BestSellerView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BookDetailsView(
-                                        contentList: contentList,
+                                        content: contentList[index],
                                       )));
                         },
                         child: Card(

@@ -27,7 +27,7 @@ class BestSellerWidgets extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BestSellerView(contentList: [],)));
+                              builder: (context) => BestSellerView(contentList: [],title: "",)));
                     },
                     child: const Text(
                       'View All',

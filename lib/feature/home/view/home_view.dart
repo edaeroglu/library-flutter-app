@@ -3,6 +3,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/feature/best%20seller/view/best_seller.dart';
+import 'package:mobile_app/feature/home/model/category_model.dart';
 import 'package:mobile_app/feature/home/view_model/home_viewmodel.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 
@@ -18,6 +19,8 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends HomeViewModel {
   List<ContentModel> contentList = [];
+
+
 
   @override
   void initState() {
@@ -148,7 +151,7 @@ class _HomeViewState extends HomeViewModel {
                                           MaterialPageRoute(
                                               builder: (context) =>
                                                   BestSellerView(
-                                                    contentList:allContents[index],
+                                                    contentList:allContents[index], title: categoryList[index].name ?? "",
                                                   )));
                                     },
                                     child: const Text(
