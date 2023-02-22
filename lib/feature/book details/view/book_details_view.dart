@@ -54,8 +54,13 @@ class _BookDetailsViewState extends State<BookDetailsView> {
     super.initState();
   }
 
-  Color _iconColor = Colors.blue;
-  Icon defaultIcon = Icon(Icons.favorite_border);
+  bool _isPressed = false;
+
+  void iconButton() {
+    setState(() {
+      _isPressed = !_isPressed;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -92,48 +97,52 @@ class _BookDetailsViewState extends State<BookDetailsView> {
           children: [
             Column(
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Image.network(
-                      content.cover ?? "",
-                      width: 150.w,
-                      height: 225.h,
-                      fit: BoxFit.cover,
-                    ),
-                    IconButton(
-                      icon: defaultIcon,
-                      color: _iconColor,
-                      onPressed: () {
-                        setState(() {
-                          _iconColor = _iconColor == Color(0xff6251DD)
-                              ? Colors.green
-                              : Color(0xff6251DD); // renk değiştirme işlemi
-                          defaultIcon =
-                              defaultIcon == Icon(Icons.favorite_border)
-                                  ? Icon(Icons.favorite)
-                                  : Icon(Icons.favorite_border);
-                        });
-                      },
-                    ),
-                    // IconButton(
-                    //   onPressed: () {
-                    //     setState(() {
-                    //       isChange = !isChange;
-                    //     });
+                SizedBox(
+                  width: double.infinity,
+                  child: Stack(
+                    children: [
+                      Center(
+                        child: Image.network(
+                          content.cover ?? "",
+                          width: 150.w,
+                          height: 225.h,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                      Align(
+                        alignment: Alignment.topRight,
+                        child: CircleAvatar(
+                          backgroundColor: Color(0xffF4F4FF),
+                          child: IconButton(
+                            // style: ButtonStyle(backgroundColor:  ),
+                            icon: _isPressed
+                                ? Icon(Icons.favorite)
+                                : Icon(Icons.favorite_border),
+                            color: _isPressed ? Colors.red : Color(0xff6251DD),
 
-                    //   },
+                            onPressed: iconButton,
+                          ),
+                        ),
+                      ),
+                      // IconButton(
+                      //   onPressed: () {
+                      //     setState(() {
+                      //       isChange = !isChange;
+                      //     });
 
-                    //     icon: Icon(
-                    //       isChange == true
-                    //         ? const Icon(Icons.favorite)
-                    //         : Icons.favorite_border
-                    //       // Icons.favorite_border,
-                    //       // color: Color(0xff6251DD),
-                    //     ),
+                      //   },
 
-                    // )
-                  ],
+                      //     icon: Icon(
+                      //       isChange == true
+                      //         ? const Icon(Icons.favorite)
+                      //         : Icons.favorite_border
+                      //       // Icons.favorite_border,
+                      //       // color: Color(0xff6251DD),
+                      //     ),
+
+                      // )
+                    ],
+                  ),
                 ),
                 Text(
                   content.name ?? "",
@@ -174,6 +183,7 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                     child: Text(
                       content.description ?? "",
                       maxLines: 8,
+                      overflow: TextOverflow.ellipsis,
                       style: GoogleFonts.manrope(
                         fontSize: 16.sp,
                         fontWeight: FontWeight.w400,

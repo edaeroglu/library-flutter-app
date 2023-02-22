@@ -63,98 +63,97 @@ class _HomeViewState extends HomeViewModel {
             )
           ],
         ),
-        body: FutureBuilder(
-          future: getList(),
-          builder: (context, snapshot) => Padding(
-            padding: EdgeInsets.symmetric(horizontal: 20.w),
-            child: Column(children: [
-              SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceAround,
-                  children: List.generate(
-                    buttonContents.length,
-                    (index) => Padding(
-                      padding: EdgeInsets.only(right: 10.w),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          setState(() {
-                            _selectedButtonIndex = index;
-                          });
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: _selectedButtonIndex == index
-                              ? Color(0xff6251DD) // selected button color
-                              : Color(0xffF4F4FF), // unselected button color
-                          elevation: 0,
-                        ),
-                        child: Text(
-                          buttonContents[index],
-                          style: GoogleFonts.manrope(
-                            fontSize: 16.sp,
-                            fontWeight: FontWeight.w400,
-                            color: _selectedButtonIndex == index
-                                ? Color(0xffFFFFFF) // selected button color
-                                : Color(0xff090937).withOpacity(0.6),
-                          ),
+        body: Padding(
+          padding: EdgeInsets.symmetric(horizontal: 20.w),
+          child: Column(children: [
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(
+                  buttonContents.length,
+                  (index) => Padding(
+                    padding: EdgeInsets.only(right: 10.w),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        setState(() {
+                          _selectedButtonIndex = index;
+                        });
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: _selectedButtonIndex == index
+                            ? Color(0xff6251DD) // selected button color
+                            : Color(0xffF4F4FF), // unselected button color
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        buttonContents[index],
+                        style: GoogleFonts.manrope(
+                          fontSize: 16.sp,
+                          fontWeight: FontWeight.w400,
+                          color: _selectedButtonIndex == index
+                              ? Color(0xffFFFFFF) // selected button color
+                              : Color(0xff090937).withOpacity(0.4),
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-              SearchBox().searchBoxDesign,
-              Expanded(
-                child: ListView.builder(
-                    itemCount: categoryList.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return Column(
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(top: 40, bottom: 20),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                              children: [
-                                Text(
-                                  categoryList[index].name ?? "",
-                                  style: GoogleFonts.manrope(
-                                    fontSize: 20.sp,
-                                    fontWeight: FontWeight.w700,
-                                    color: Color(0xff090937),
-                                  ),
+            ),
+            SearchBox().searchBoxDesign,
+            Expanded(
+              child: ListView.builder(
+                  itemCount: categoryList.length,
+                  itemBuilder: (BuildContext context, int index) {
+                    return Column(
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.only(top: 40, bottom: 20),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                categoryList[index].name ?? "",
+                                style: GoogleFonts.manrope(
+                                  fontSize: 20.sp,
+                                  fontWeight: FontWeight.w700,
+                                  color: Color(0xff090937),
                                 ),
-                                TextButton(
-                                    onPressed: () {
-                                      Navigator.push(
-                                          context,
-                                          MaterialPageRoute(
-                                              builder: (context) =>
-                                                  BestSellerView(
-                                                    contentList:
-                                                        allContents[index],
-                                                    title: categoryList[index]
-                                                            .name ??
-                                                        "",
-                                                  )));
-                                    },
-                                    child: const Text(
-                                      'View All',
-                                      style:
-                                          TextStyle(color: Color(0xffEF6B4A)),
-                                    ))
-                              ],
-                            ),
+                              ),
+                              TextButton(
+                                  onPressed: () {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                BestSellerView(
+                                                  contentList:
+                                                      allContents[index],
+                                                  title: categoryList[index]
+                                                          .name ??
+                                                      "",
+                                                )));
+                                  },
+                                  child: const Text(
+                                    'View All',
+                                    style: TextStyle(color: Color(0xffEF6B4A)),
+                                  ))
+                            ],
                           ),
-                          SizedBox(
-                            height: 140.h,
-                            width: double.infinity,
-                            child: ListView.builder(
-                                // itemCount: contentList.length,
-                                itemCount: allContents[index].length,
-                                scrollDirection: Axis.horizontal,
-                                itemBuilder:
-                                    (BuildContext context, int index2) {
-                                  return Card(
+                        ),
+                        SizedBox(
+                          height: 140.h,
+                          width: double.infinity,
+                          child: ListView.builder(
+                              // itemCount: contentList.length,
+                              itemCount: allContents[index].length,
+                              scrollDirection: Axis.horizontal,
+                              itemBuilder: (BuildContext context, int index2) {
+                                return SizedBox(
+                                  height: 140.h,
+                                  width: 210.w,
+                                  child: Card(
                                     elevation: 0,
                                     color: Color(0xffF4F4FF),
                                     child: Row(
@@ -162,52 +161,56 @@ class _HomeViewState extends HomeViewModel {
                                         Image.network(
                                             allContents[index][index2].cover ??
                                                 ""),
-                                        Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                  top: 10.h, bottom: 4.h),
-                                              child: Text(
+                                        Expanded(
+                                          child: Column(
+                                            crossAxisAlignment:
+                                                CrossAxisAlignment.start,
+                                            children: [
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    top: 10.h, bottom: 4.h),
+                                                child: Text(
+                                                  allContents[index][index2]
+                                                          .name ??
+                                                      "",
+                                                  style: GeneralTextStyle
+                                                      .WriterTextStyle,
+                                                ),
+                                              ),
+                                              Text(
                                                 allContents[index][index2]
-                                                        .name ??
+                                                        .author ??
                                                     "",
                                                 style: GeneralTextStyle
-                                                    .WriterTextStyle,
+                                                    .BookTextStyle,
                                               ),
-                                            ),
-                                            Text(
-                                              allContents[index][index2]
-                                                      .author ??
-                                                  "",
-                                              style: GeneralTextStyle
-                                                  .BookTextStyle,
-                                            ),
-                                            SizedBox(
-                                              height: 45.h,
-                                            ),
-                                            Text(
-                                              allContents[index][index2]
-                                                      .price
-                                                      .toString() ??
-                                                  "",
-                                              style: GeneralTextStyle
-                                                  .PriceTextStyle,
-                                            )
-                                          ],
+                                              Spacer(),
+                                              Padding(
+                                                padding: EdgeInsets.only(
+                                                    bottom: 20.h),
+                                                child: Text(
+                                                  allContents[index][index2]
+                                                          .price
+                                                          .toString() ??
+                                                      "",
+                                                  style: GeneralTextStyle
+                                                      .PriceTextStyle,
+                                                ),
+                                              )
+                                            ],
+                                          ),
                                         ),
                                       ],
                                     ),
-                                  );
-                                }),
-                          )
-                        ],
-                      );
-                    }),
-              ),
-            ]),
-          ),
+                                  ),
+                                );
+                              }),
+                        )
+                      ],
+                    );
+                  }),
+            ),
+          ]),
         ));
   }
 }

@@ -7,7 +7,6 @@ import 'package:mobile_app/product/textformfield/text_form_field.dart';
 import '../../../product/model/contents_model.dart';
 import '../../book details/view/book_details_view.dart';
 
-
 class BestSellerView extends StatefulWidget {
   BestSellerView({super.key, required this.contentList, required this.title});
   final List<ContentModel> contentList;

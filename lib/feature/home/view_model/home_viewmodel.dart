@@ -8,6 +8,10 @@ import '../../../product/model/contents_model.dart';
 abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   late final ICategoryService categoryService;
 
+  HomeViewModel() {
+    categoryService = CategoryService(service);
+  }
+
   List<CategoryModel> categoryList = [];
   List<ContentModel> contentList = [];
   List<List<ContentModel>> allContents = [];
@@ -29,14 +33,13 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
 
   @override
   void initState() async {
+    super.initState();
     await getList();
     // TODO: implement initState
-    super.initState();
   }
 
   Future<void> getList() async {
     changeLoading();
-    categoryService = CategoryService(service);
     categoryList = await categoryService.getCategories() ?? [];
     await getListContent(categoryList.length);
     changeLoading();
@@ -58,11 +61,4 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
           element.cover;
     });
   }
-
- 
 }
-
-
-
-
-
