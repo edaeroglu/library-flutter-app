@@ -8,8 +8,14 @@ import '../../../product/model/contents_model.dart';
 import '../../book details/view/book_details_view.dart';
 
 class BestSellerView extends StatefulWidget {
-  BestSellerView({super.key, required this.contentList, required this.title});
+  BestSellerView({
+    super.key,
+    required this.contentList,
+    required this.title,
+    required this.token,
+  });
   final List<ContentModel> contentList;
+  final String token;
   String title;
 
   @override
@@ -35,8 +41,7 @@ class _BestSellerViewState extends State<BestSellerView> {
         iconTheme: IconThemeData(color: Color(0xff090937)),
         leading: GestureDetector(
             onTap: () {
-              Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const HomeView()));
+              Navigator.pop(context);
             },
             child: const Icon(Icons.arrow_back_ios)),
         elevation: 0,
@@ -79,6 +84,7 @@ class _BestSellerViewState extends State<BestSellerView> {
                               context,
                               MaterialPageRoute(
                                   builder: (context) => BookDetailsView(
+                                        token: widget.token,
                                         content: contentList[index],
                                       )));
                         },

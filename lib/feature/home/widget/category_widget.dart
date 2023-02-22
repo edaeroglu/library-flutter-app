@@ -7,8 +7,8 @@ import '../../best seller/view/best_seller.dart';
 
 class BestSellerWidgets extends StatelessWidget {
   List<ContentModel>? contentList;
-
-  BestSellerWidgets({super.key, this.contentList});
+  final String token;
+  BestSellerWidgets({super.key, this.contentList, required this.token});
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +27,7 @@ class BestSellerWidgets extends StatelessWidget {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => BestSellerView(contentList: [],title: "",)));
+                              builder: (context) => BestSellerView(contentList: [],title: "", token: token,)));
                     },
                     child: const Text(
                       'View All',

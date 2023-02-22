@@ -1,7 +1,10 @@
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
+import 'package:mobile_app/product/service/project_dio.dart';
 import '../../../product/model/contents_model.dart';
 import '../../best seller/view/best_seller.dart';
 
@@ -37,30 +40,75 @@ import '../../best seller/view/best_seller.dart';
 // }
 
 class BookDetailsView extends StatefulWidget {
-  const BookDetailsView({super.key, required this.content});
+  const BookDetailsView({
+    super.key,
+    required this.content,
+    required this.token,
+  });
   final ContentModel content;
+  final String token;
+  // final String postId;
+  // final String userId;
 
   @override
   State<BookDetailsView> createState() => _BookDetailsViewState();
 }
 
-class _BookDetailsViewState extends State<BookDetailsView> {
+class _BookDetailsViewState extends State<BookDetailsView>
+    with ProjectDioMixin {
   late final ContentModel content;
   bool isChange = false;
   @override
   void initState() {
     content = widget.content;
-
+    // _liked = _isLiked();
     super.initState();
   }
 
   bool _isPressed = false;
 
-  void iconButton() {
+  String getUserId() {
+    final Map<String, dynamic> decodedToken = JwtDecoder.decode(widget.token);
+
+    final String userId =
+        decodedToken["https://hasura.io/jwt/claims"]["x-hasura-user-id"];
+
+    print(userId);
+
+    return userId;
+  }
+
+  Future<void> like({required int productId}) async {
+    await service.post("/like",
+        data: {
+          "user_id": int.parse(getUserId()),
+          "product_id": productId,
+        },
+        options: Options(headers: {"Authorization": "Bearer ${widget.token}"}));
+  }
+
+  Future<void> unlike({required int productId}) async {
+    service.post("/unlike",
+        data: {
+          "user_id": int.parse(getUserId()),
+          "product_id": productId,
+        },
+        options: Options(headers: {"Authorization": "Bearer ${widget.token}"}));
+  }
+
+  void iconButton({required int productId}) {
     setState(() {
       _isPressed = !_isPressed;
+
+      if (_isPressed) {
+        like(productId: productId);
+      } else {
+        unlike(productId: productId);
+      }
     });
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -119,8 +167,20 @@ class _BookDetailsViewState extends State<BookDetailsView> {
                                 ? Icon(Icons.favorite)
                                 : Icon(Icons.favorite_border),
                             color: _isPressed ? Colors.red : Color(0xff6251DD),
+                            onPressed: () {
+                              iconButton(productId: content.id!);
+                            },
 
-                            onPressed: iconButton,
+                            // onPressed: () {
+                            //   setState(() {
+                            //     _liked = !_liked;
+                            //     if (_liked) {
+                            //       _likePost();
+                            //     } else {
+                            //       _unlikePost();
+                            //     }
+                            //   });
+                            // },
                           ),
                         ),
                       ),

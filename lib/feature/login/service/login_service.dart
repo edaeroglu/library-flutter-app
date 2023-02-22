@@ -29,13 +29,6 @@ class LoginService extends ILoginService {
       } else {
         return null;
       }
-
-      // if (data == null && data['token'] == null ) {
-      //   return null;
-      // } else {
-      //   return data['token'];
-      // }
-
     } on DioError catch (e) {
       // Hata durumlarında mesaj göstermek için hata nesnesini kullanabiliriz.
       final errorMessage = e.response?.data['message'] ?? 'Bir hata oluştu.';
@@ -44,18 +37,3 @@ class LoginService extends ILoginService {
     }
   }
 }
-// class LoginService {
-//   final String baseUrl = 'https://assign-api.piton.com.tr/api/rest';
-//   final dio = Dio();
-//   Future<LoginModel?> loginCall(
-//       {required String email, required String password}) async {
-//     Map<String, dynamic> json = {"email": email, "password": password};
-//     var response = await dio.post(baseUrl + "/login", data: json);
-//     if (response.statusCode == 200) {
-//       var result = LoginModel.fromJson(response.data);
-//       return result;
-//     } else {
-//       throw ("Bir sorun oluştu ${response.statusCode}");
-//     }
-//   }
-// }

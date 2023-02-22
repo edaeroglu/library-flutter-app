@@ -79,7 +79,6 @@ class _LoginViewState extends LoginViewModel {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: TextFormField(
-                          
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: const InputDecoration(
@@ -138,13 +137,14 @@ class _LoginViewState extends LoginViewModel {
                                 contentPadding: EdgeInsets.all(20),
                               ),
                             );
-                            
 
                             // Kullanıcıya geri bildirim verilecek
                           } else {
-                            Navigator.of(context).pushReplacement(
+                            Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
-                                    builder: (context) => HomeView()));
+                                    builder: (context) =>
+                                        HomeView(token: token!)),
+                                (route) => route.isFirst);
 
                             //login oldu sayfaya yönlendir
                           }

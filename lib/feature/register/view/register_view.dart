@@ -133,11 +133,7 @@ class _RegisterViewState extends RegisterViewModel {
                           alignment: Alignment.centerRight,
                           child: TextButtonStyle(
                             onPressed: () {
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const HomeView())); //burası LoginView olarak değişecek
+                           //burası LoginView olarak değişecek
                             },
                             buttonText: 'Login',
                           ),
