@@ -7,11 +7,13 @@ import 'package:mobile_app/feature/register/view/register_view.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/padding/padding.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../../home/view/home_view.dart';
 
 class LoginView extends StatefulWidget {
-  const LoginView({super.key});
+  LoginView({super.key, required this.token});
+  final String token;
 
   @override
   State<LoginView> createState() => _LoginViewState();
@@ -21,7 +23,31 @@ class _LoginViewState extends LoginViewModel {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
 
-  bool _isSelected = false;
+//   Future<void> main() async {
+//   // SharedPreferences'a erişin
+//   SharedPreferences prefs = await SharedPreferences.getInstance();
+
+//   // "token" anahtarından token'ı alın
+//   token = prefs.getString('token');
+
+//   // 5 saniye bekleyin
+//   await Future.delayed(Duration(seconds: 5));
+
+//   // Token kontrolü yapın
+//   if (token != null) {
+//     // Token varsa anasayfaya yönlendirin
+//     runApp(HomeView(token: widget.token,));
+//   } else {
+//     // Token yoksa giriş sayfasına yönlendirin
+//     runApp(LoginPage());
+//   }
+// }
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -79,6 +105,7 @@ class _LoginViewState extends LoginViewModel {
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
                         child: TextFormField(
+                          obscureText: true,
                           controller: _passwordController,
                           keyboardType: TextInputType.visiblePassword,
                           decoration: const InputDecoration(
@@ -96,10 +123,10 @@ class _LoginViewState extends LoginViewModel {
                             child: CheckboxListTile(
                               controlAffinity: ListTileControlAffinity.leading,
                               contentPadding: EdgeInsets.zero,
-                              value: _isSelected,
-                              onChanged: (bool? newValue) {
+                              value: rememberMe,
+                              onChanged: (newValue) {
                                 setState(() {
-                                  _isSelected = newValue!;
+                                  rememberMe = newValue!;
                                 });
                               },
                               title: const Text('Remember Me'),
@@ -154,16 +181,6 @@ class _LoginViewState extends LoginViewModel {
                           style: GeneralTextStyle.generalButtonTextStyle,
                         ),
                       ),
-                      // GeneralButton(
-                      //   onPressed: () {
-                      //     Navigator.push(
-                      //             context,
-                      //             MaterialPageRoute(
-                      //                 builder: (context) =>
-                      //                     const HomeView()));
-                      //   },
-                      //   buttonText: 'Login'
-                      // )
                     ],
                   ),
                 ),
@@ -175,3 +192,33 @@ class _LoginViewState extends LoginViewModel {
     );
   }
 }
+
+
+
+
+ // void _getSavedLoginInfo() async {
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   setState(() {
+  //     _rememberMe = prefs.getBool('rememberMe') ?? false;
+  //     if (_rememberMe) {
+  //       _emailController.text = prefs.getString('email') ?? '';
+  //       _passwordController.text = prefs.getString('password') ?? '';
+  //     }
+  //   });
+  // }
+
+  // void _saveLoginInfo() async {
+  //   final expireDate = DateTime.fromMillisecondsSinceEpoch(123461253456124);
+  //   final now = DateTime.now();
+
+  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  //   if (now.compareTo(expireDate) == 1) {
+  //     prefs.remove('email');
+  //     prefs.remove('password');
+  //   } else {
+  //     prefs.setString('email', _emailController.text);
+  //     prefs.setString('password', _passwordController.text);
+  //   }
+
+  //   prefs.setBool('rememberMe', _rememberMe);
+  // }

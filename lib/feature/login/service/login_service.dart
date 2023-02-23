@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 
-
 abstract class ILoginService {
   ILoginService(this.dio);
   final Dio dio;
@@ -22,14 +21,19 @@ class LoginService extends ILoginService {
         },
       );
 
+      print(response);
+
       final data = response.data;
 
-      if (data != null && data["action_login"]["token"] != null  ) {
+      if (data != null && data["action_login"]["token"] != null) {
+        print("token");
         return data["action_login"]["token"];
       } else {
-        return null;
+        print("hata");
+        return "Hata";
       }
     } on DioError catch (e) {
+      print(e.toString());
       // Hata durumlarında mesaj göstermek için hata nesnesini kullanabiliriz.
       final errorMessage = e.response?.data['message'] ?? 'Bir hata oluştu.';
       print(errorMessage);

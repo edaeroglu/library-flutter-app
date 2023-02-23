@@ -182,7 +182,7 @@ class _RegisterViewState extends RegisterViewModel {
 
       if (success) {
         Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginView()));
+            MaterialPageRoute(builder: (context) => LoginView(token: "",)));
       } else {
         // ignore: use_build_context_synchronously
         await showDialog(

@@ -1,12 +1,11 @@
+import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/service/project_dio.dart';
 import '../../../product/model/contents_model.dart';
-import '../../best seller/view/best_seller.dart';
 
 // abstract class BookDetailsViewModel extends State<BookDetailsView>
 //     with ProjectDioMixin {
@@ -47,8 +46,6 @@ class BookDetailsView extends StatefulWidget {
   });
   final ContentModel content;
   final String token;
-  // final String postId;
-  // final String userId;
 
   @override
   State<BookDetailsView> createState() => _BookDetailsViewState();
@@ -66,9 +63,14 @@ class _BookDetailsViewState extends State<BookDetailsView>
   }
 
   bool _isPressed = false;
+  Map<String, dynamic> getJsonFromJWT(String splittedToken) {
+    String normalizedSource = base64Url.normalize(splittedToken);
+    return jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
+  }
 
   String getUserId() {
-    final Map<String, dynamic> decodedToken = JwtDecoder.decode(widget.token);
+    final Map<String, dynamic> decodedToken =
+        getJsonFromJWT(widget.token.split(".")[1]);
 
     final String userId =
         decodedToken["https://hasura.io/jwt/claims"]["x-hasura-user-id"];
@@ -107,8 +109,6 @@ class _BookDetailsViewState extends State<BookDetailsView>
       }
     });
   }
-
-
 
   @override
   Widget build(BuildContext context) {

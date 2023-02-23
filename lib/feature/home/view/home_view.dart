@@ -87,8 +87,8 @@ class _HomeViewState extends HomeViewModel {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _selectedButtonIndex == index
-                                    ? Color(0xff6251DD) // selected button color
-                                    : Color(
+                                    ? const Color(0xff6251DD) // selected button color
+                                    : const Color(
                                         0xffF4F4FF), // unselected button color
                                 elevation: 0,
                               ),
@@ -98,9 +98,9 @@ class _HomeViewState extends HomeViewModel {
                                   fontSize: 16.sp,
                                   fontWeight: FontWeight.w400,
                                   color: _selectedButtonIndex == index
-                                      ? Color(
+                                      ? const Color(
                                           0xffFFFFFF) // selected button color
-                                      : Color(0xff090937).withOpacity(0.4),
+                                      : const Color(0xff090937).withOpacity(0.4),
                                 ),
                               ),
                             ),
@@ -127,7 +127,7 @@ class _HomeViewState extends HomeViewModel {
                                         style: GoogleFonts.manrope(
                                           fontSize: 20.sp,
                                           fontWeight: FontWeight.w700,
-                                          color: Color(0xff090937),
+                                          color: const Color(0xff090937),
                                         ),
                                       ),
                                       TextButton(
@@ -237,108 +237,3 @@ class _HomeViewState extends HomeViewModel {
         ));
   }
 }
-
-//SingleChildScrollView(
-      //   child: isLoading
-      //       ? Center(child: CircularProgressIndicator())
-      //       : Padding(
-      //           padding: EdgeInsets.symmetric(horizontal: 20.w),
-      //           child: Column(
-      //             children: [
-      //               SizedBox(
-      //                 height: 42.h,
-      //                 width: double.infinity,
-      //                 child: ListView.builder(
-      //                   itemCount: categoryList.length,
-      //                   //itemExtent: 70.0,
-      //                   scrollDirection: Axis.horizontal,
-      //                   itemBuilder: (BuildContext context, int index) {
-      //                     return Row(
-      //                       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-      //                       children: [
-      //                         ElevatedButton(
-      //                             onPressed: () {},
-      //                             // ignore: sort_child_properties_last
-      //                             child: Text(
-      //                               categoryList[index].name ?? "",
-      //                               style: TextStyle(color: Colors.black),
-      //                             ),
-      //                             style: ElevatedButton.styleFrom(
-      //                                 backgroundColor: Color(0xff6251DD),
-      //                                 elevation: 0)),
-      //                         SizedBox(
-      //                           width: 10.w,
-      //                         ),
-      //                         // ElevatedButton(
-      //                         //     onPressed: () {},
-      //                         //     style: ElevatedButton.styleFrom(
-      //                         //         backgroundColor: Color(0xffF4F4FF),
-      //                         //         elevation: 0),
-      //                         //     child: Text(
-      //                         //       'Classics',
-      //                         //       style: GeneralTextStyle.CategoryTextStyle,
-      //                         //     )),
-      //                         // SizedBox(
-      //                         //   width: 10.w,
-      //                         // ),
-      //                         //
-      //                       ],
-      //                     );
-      //                   },
-      //                 ),
-      //               ),
-      //               SearchBox().searchBoxDesign,
-      //               BestSellerWidgets(
-      //                 contentList: contentList,
-      //               ),
-      //               const ClassicsWidget(),
-      //               const ChildrenWidget()
-      //             ],
-      //           ),
-      //         ),
-      // ),
-//-------------------------------------------------
-// class CategoryRow {
-//   final categoryRow = Padding(
-//     padding:  EdgeInsets.only(right: 10.h),
-//     child: Row(
-//       children: [
-//         ElevatedButton(
-//             onPressed: () {},
-//             child: Text('All'),
-//             style: ElevatedButton.styleFrom(
-//               backgroundColor: Color(0xff6251DD),
-//             )),
-//         ElevatedButton(
-//             onPressed: () {},
-//             child: Text('All'),
-//             style: ElevatedButton.styleFrom(
-//               backgroundColor: Color(0xff6251DD),
-//             )),
-//       ],
-//     ),
-//   );
-// }
-// Column(children: [
-//         Expanded(
-//           child: ListView.builder(
-//               itemCount: categoryList.length,
-//               //itemExtent: 70.0,
-//               scrollDirection: Axis.horizontal,
-//               itemBuilder: (BuildContext context, int index) {
-//                 return Row(
-//                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-//                   children: [
-//                     ElevatedButton(
-//                       onPressed: () {},
-//                       // ignore: sort_child_properties_last
-//                       child: Text(
-//                         categoryList[index].name ?? "",
-//                         style: TextStyle(color: Colors.black),
-//                       ),
-//                     ),
-//                   ],
-//                 );
-//               }),
-//         )
-//       ]),
