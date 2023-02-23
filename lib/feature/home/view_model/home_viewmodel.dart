@@ -35,7 +35,6 @@ abstract class HomeViewModel extends State<HomeView> with ProjectDioMixin {
   void initState() async {
     super.initState();
     await getList();
-    // TODO: implement initState
   }
 
   Future<void> getList() async {

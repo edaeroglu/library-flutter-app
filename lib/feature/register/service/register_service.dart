@@ -1,4 +1,3 @@
-import 'package:dio/dio.dart';
 import 'package:mobile_app/product/service/project_dio.dart';
 
 class RegisterService with ProjectDioMixin {

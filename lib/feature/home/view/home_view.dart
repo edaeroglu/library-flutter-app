@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mobile_app/feature/best%20seller/view/best_seller.dart';
-import 'package:mobile_app/feature/home/model/category_model.dart';
 import 'package:mobile_app/feature/home/view_model/home_viewmodel.dart';
+import 'package:mobile_app/product/padding/padding.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
-
-import '../../../product/model/contents_model.dart';
 import '../../../product/text_style/text_style.dart';
 
 class HomeView extends StatefulWidget {
   final String token;
-
   const HomeView({super.key, required this.token});
 
   @override
@@ -20,7 +16,6 @@ class HomeView extends StatefulWidget {
 }
 
 class _HomeViewState extends HomeViewModel {
-  List<ContentModel> contentList = [];
   List<String> buttonContents = [
     "All",
     "Classics",
@@ -28,7 +23,6 @@ class _HomeViewState extends HomeViewModel {
     "Romance",
   ];
   int _selectedButtonIndex = 0;
-  int _selectedTextIndex = 0;
 
   @override
   void initState() {
@@ -42,32 +36,24 @@ class _HomeViewState extends HomeViewModel {
           toolbarHeight: 92.h,
           backgroundColor: Colors.white,
           leadingWidth: 70.w,
-          leading: Padding(
-            padding: const EdgeInsets.only(left: 20.0),
-            child: SizedBox(
-              width: 50.w,
-              height: 32.h,
-              child: SvgPicture.asset('assets/images/logo.svg'),
-            ),
+          leading: const Padding(
+            padding: EdgeInsets.only(left: 20.0),
+            child: AppBarSizedBox(),
           ),
           elevation: 0,
           actions: [
             Padding(
               padding: EdgeInsets.only(right: 20.w),
               child: Center(
-                  child: Text(
-                'Catalog',
-                style: GoogleFonts.manrope(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xff090937)),
-              )),
+                child:
+                    Text('Catalog', style: GeneralTextStyle.accountTextStyle),
+              ),
             )
           ],
         ),
         body: Center(
           child: isLoading
-              ? CircularProgressIndicator()
+              ? const CircularProgressIndicator()
               : Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.w),
                   child: Column(children: [
@@ -87,20 +73,18 @@ class _HomeViewState extends HomeViewModel {
                               },
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: _selectedButtonIndex == index
-                                    ? const Color(0xff6251DD) // selected button color
-                                    : const Color(
-                                        0xffF4F4FF), // unselected button color
+                                    ? const Color(0xff6251DD)
+                                    : const Color(0xffF4F4FF),
                                 elevation: 0,
                               ),
                               child: Text(
                                 buttonContents[index],
-                                style: GoogleFonts.manrope(
-                                  fontSize: 16.sp,
-                                  fontWeight: FontWeight.w400,
+                                style:
+                                    GeneralTextStyle.categoryTextStyle.copyWith(
                                   color: _selectedButtonIndex == index
-                                      ? const Color(
-                                          0xffFFFFFF) // selected button color
-                                      : const Color(0xff090937).withOpacity(0.4),
+                                      ? const Color(0xffFFFFFF)
+                                      : const Color(0xff090937)
+                                          .withOpacity(0.4),
                                 ),
                               ),
                             ),
@@ -116,20 +100,14 @@ class _HomeViewState extends HomeViewModel {
                             return Column(
                               children: [
                                 Padding(
-                                  padding: const EdgeInsets.only(
-                                      top: 40, bottom: 20),
+                                  padding: ListViewPadding().listViewPadding,
                                   child: Row(
                                     mainAxisAlignment:
                                         MainAxisAlignment.spaceBetween,
                                     children: [
-                                      Text(
-                                        categoryList[index].name ?? "",
-                                        style: GoogleFonts.manrope(
-                                          fontSize: 20.sp,
-                                          fontWeight: FontWeight.w700,
-                                          color: const Color(0xff090937),
-                                        ),
-                                      ),
+                                      Text(categoryList[index].name ?? "",
+                                          style: GeneralTextStyle
+                                              .accountTextStyle),
                                       TextButton(
                                           onPressed: () {
                                             Navigator.push(
@@ -159,7 +137,6 @@ class _HomeViewState extends HomeViewModel {
                                   height: 140.h,
                                   width: double.infinity,
                                   child: ListView.builder(
-                                      // itemCount: contentList.length,
                                       itemCount: allContents[index].length,
                                       scrollDirection: Axis.horizontal,
                                       itemBuilder:
@@ -169,7 +146,7 @@ class _HomeViewState extends HomeViewModel {
                                           width: 210.w,
                                           child: Card(
                                             elevation: 0,
-                                            color: Color(0xffF4F4FF),
+                                            color: const Color(0xffF4F4FF),
                                             child: Row(
                                               children: [
                                                 Image.network(allContents[index]
@@ -193,7 +170,7 @@ class _HomeViewState extends HomeViewModel {
                                                                   .name ??
                                                               "",
                                                           style: GeneralTextStyle
-                                                              .WriterTextStyle,
+                                                              .writerTextStyle,
                                                         ),
                                                       ),
                                                       Text(
@@ -202,9 +179,9 @@ class _HomeViewState extends HomeViewModel {
                                                                 .author ??
                                                             "",
                                                         style: GeneralTextStyle
-                                                            .BookTextStyle,
+                                                            .bookTextStyle,
                                                       ),
-                                                      Spacer(),
+                                                      const Spacer(),
                                                       Padding(
                                                         padding:
                                                             EdgeInsets.only(
@@ -216,7 +193,7 @@ class _HomeViewState extends HomeViewModel {
                                                                   .toString() ??
                                                               "",
                                                           style: GeneralTextStyle
-                                                              .PriceTextStyle,
+                                                              .priceTextStyle,
                                                         ),
                                                       )
                                                     ],
@@ -235,5 +212,20 @@ class _HomeViewState extends HomeViewModel {
                   ]),
                 ),
         ));
+  }
+}
+
+class AppBarSizedBox extends StatelessWidget {
+  const AppBarSizedBox({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SizedBox(
+      width: 50.w,
+      height: 32.h,
+      child: SvgPicture.asset('assets/images/logo.svg'),
+    );
   }
 }

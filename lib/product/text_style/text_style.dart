@@ -18,36 +18,36 @@ class GeneralTextStyle {
     color: Color(0xff6251DD),
   );
 
-  static final WriterTextStyle = GoogleFonts.manrope(
+  static final writerTextStyle = GoogleFonts.manrope(
     fontSize: 12.sp,
     fontWeight: FontWeight.w600,
     color: Color(0xff090937),
   );
 
-  static final BookTextStyle = GoogleFonts.manrope(
+  static final bookTextStyle = GoogleFonts.manrope(
     fontSize: 10.sp,
     fontWeight: FontWeight.w600,
     color: Color(0xff090937).withOpacity(0.6),
   );
-  static final CategoryTextStyle = GoogleFonts.manrope(
+  static final categoryTextStyle = GoogleFonts.manrope(
     fontSize: 16.sp,
     fontWeight: FontWeight.w400,
     color: Color(0xff090937),
   );
 
-  static final PriceTextStyle = GoogleFonts.manrope(
+  static final priceTextStyle = GoogleFonts.manrope(
     fontSize: 16.sp,
     fontWeight: FontWeight.w700,
     color: Color(0xff6251DD),
   );
 
-  static final PriceBSTextStyle = GoogleFonts.manrope(
+  static final priceBSTextStyle = GoogleFonts.manrope(
     fontSize: 12.sp,
     fontWeight: FontWeight.w700,
     color: Color(0xff6251DD),
   );
 
-  static final AccountTextStyle = GoogleFonts.manrope(
+  static final accountTextStyle = GoogleFonts.manrope(
     fontSize: 20.sp,
     fontWeight: FontWeight.w700,
     color: Color(0xff090937),

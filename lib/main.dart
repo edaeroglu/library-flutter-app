@@ -1,6 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mobile_app/feature/best%20seller/view/best_seller.dart';
-import 'package:mobile_app/feature/home/view/home_view.dart';
 import 'package:mobile_app/feature/splash/view/splash.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter/services.dart';
@@ -26,7 +24,9 @@ class MyApp extends StatelessWidget {
           theme: ThemeData(
             primarySwatch: Colors.blue,
           ),
-          home: SplashPage(token: "",),
+          home: const SplashPage(
+            token: "",
+          ),
         );
       },
     );

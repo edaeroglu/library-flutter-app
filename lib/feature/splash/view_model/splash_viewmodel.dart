@@ -21,7 +21,7 @@ abstract class SplashViewModel extends State<SplashPage> with ProjectDioMixin {
       Navigator.of(context).pushAndRemoveUntil(
           MaterialPageRoute(
               builder: (context) => HomeView(token: widget.token)),
-          (route) => route.isFirst);
+          (route) => false);
     } else {
       // ignore: use_build_context_synchronously
       Navigator.push(

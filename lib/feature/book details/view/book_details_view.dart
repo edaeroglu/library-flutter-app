@@ -1,42 +1,11 @@
-import 'dart:convert';
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mobile_app/feature/book%20details/view_model/book_details_viewmodel.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/service/project_dio.dart';
+import 'package:mobile_app/product/text_style/text_style.dart';
 import '../../../product/model/contents_model.dart';
-
-// abstract class BookDetailsViewModel extends State<BookDetailsView>
-//     with ProjectDioMixin {
-//   late final ICategoryService categoryService;
-
-//   List<ContentModel> contentList = [];
-//   bool isLoading = false;
-
-//   void changeLoading() {
-//     setState(() {
-//       isLoading = !isLoading;
-//     });
-//   }
-
-//   @override
-//   Future<void> initState() async {
-//     super.initState();
-//     // await initCategoryService();
-//     // getListContent();
-//   }
-
-//   Future<void> initCategoryService() async {
-//     categoryService = CategoryService(service);
-//   }
-
-//   Future<void> getListContent(int index) async {
-//     changeLoading();
-//     contentList = await categoryService.getContents(index) ?? [];
-//     changeLoading();
-//   }
-// }
+import '../../../product/padding/padding.dart';
 
 class BookDetailsView extends StatefulWidget {
   const BookDetailsView({
@@ -51,10 +20,9 @@ class BookDetailsView extends StatefulWidget {
   State<BookDetailsView> createState() => _BookDetailsViewState();
 }
 
-class _BookDetailsViewState extends State<BookDetailsView>
-    with ProjectDioMixin {
+class _BookDetailsViewState extends BookDetailsViewModel with ProjectDioMixin {
   late final ContentModel content;
-  bool isChange = false;
+
   @override
   void initState() {
     content = widget.content;
@@ -63,40 +31,6 @@ class _BookDetailsViewState extends State<BookDetailsView>
   }
 
   bool _isPressed = false;
-  Map<String, dynamic> getJsonFromJWT(String splittedToken) {
-    String normalizedSource = base64Url.normalize(splittedToken);
-    return jsonDecode(utf8.decode(base64Url.decode(normalizedSource)));
-  }
-
-  String getUserId() {
-    final Map<String, dynamic> decodedToken =
-        getJsonFromJWT(widget.token.split(".")[1]);
-
-    final String userId =
-        decodedToken["https://hasura.io/jwt/claims"]["x-hasura-user-id"];
-
-    print(userId);
-
-    return userId;
-  }
-
-  Future<void> like({required int productId}) async {
-    await service.post("/like",
-        data: {
-          "user_id": int.parse(getUserId()),
-          "product_id": productId,
-        },
-        options: Options(headers: {"Authorization": "Bearer ${widget.token}"}));
-  }
-
-  Future<void> unlike({required int productId}) async {
-    service.post("/unlike",
-        data: {
-          "user_id": int.parse(getUserId()),
-          "product_id": productId,
-        },
-        options: Options(headers: {"Authorization": "Bearer ${widget.token}"}));
-  }
 
   void iconButton({required int productId}) {
     setState(() {
@@ -127,20 +61,13 @@ class _BookDetailsViewState extends State<BookDetailsView>
           Padding(
             padding: EdgeInsets.only(right: 20.w),
             child: Center(
-                child: Text(
-              'Book Details',
-              maxLines: 8,
-              style: GoogleFonts.manrope(
-                fontSize: 20.sp,
-                fontWeight: FontWeight.w700,
-                color: Color(0xff090937),
-              ),
-            )),
+                child: Text('Book Details',
+                    maxLines: 8, style: GeneralTextStyle.accountTextStyle)),
           )
         ],
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: 20.h, vertical: 30.w),
+        padding: BookDetailsPadding().bookDetailsPadding,
         child: Column(
           children: [
             Column(
@@ -162,7 +89,6 @@ class _BookDetailsViewState extends State<BookDetailsView>
                         child: CircleAvatar(
                           backgroundColor: Color(0xffF4F4FF),
                           child: IconButton(
-                            // style: ButtonStyle(backgroundColor:  ),
                             icon: _isPressed
                                 ? Icon(Icons.favorite)
                                 : Icon(Icons.favorite_border),
@@ -170,93 +96,45 @@ class _BookDetailsViewState extends State<BookDetailsView>
                             onPressed: () {
                               iconButton(productId: content.id!);
                             },
-
-                            // onPressed: () {
-                            //   setState(() {
-                            //     _liked = !_liked;
-                            //     if (_liked) {
-                            //       _likePost();
-                            //     } else {
-                            //       _unlikePost();
-                            //     }
-                            //   });
-                            // },
                           ),
                         ),
                       ),
-                      // IconButton(
-                      //   onPressed: () {
-                      //     setState(() {
-                      //       isChange = !isChange;
-                      //     });
-
-                      //   },
-
-                      //     icon: Icon(
-                      //       isChange == true
-                      //         ? const Icon(Icons.favorite)
-                      //         : Icons.favorite_border
-                      //       // Icons.favorite_border,
-                      //       // color: Color(0xff6251DD),
-                      //     ),
-
-                      // )
                     ],
                   ),
                 ),
-                Text(
-                  content.name ?? "",
-                  style: GoogleFonts.manrope(
-                    fontSize: 20.sp,
-                    fontWeight: FontWeight.w700,
-                    color: Color(0xff090937),
-                  ),
-                ),
-                Text(
-                  content.author ?? "",
-                  style: GoogleFonts.manrope(
-                    fontSize: 16.sp,
-                    fontWeight: FontWeight.w600,
-                    color: Color(0xff090937).withOpacity(0.6),
-                  ),
-                ),
+                Text(content.name ?? "",
+                    style: GeneralTextStyle.accountTextStyle),
+                Text(content.author ?? "",
+                    style: GeneralTextStyle.generalTextStyle
+                        .copyWith(fontSize: 16.sp)),
               ],
             ),
-            Spacer(),
+            const Spacer(),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 35.h),
               child: Column(
                 children: [
                   Align(
                     alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Summary',
-                      style: GoogleFonts.manrope(
-                        fontSize: 20.sp,
-                        fontWeight: FontWeight.w700,
-                        color: Color(0xff090937),
-                      ),
-                    ),
+                    child: Text('Summary',
+                        style: GeneralTextStyle.accountTextStyle),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
-                    child: Text(
-                      content.description ?? "",
-                      maxLines: 8,
-                      overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.manrope(
-                        fontSize: 16.sp,
-                        fontWeight: FontWeight.w400,
-                        color: Color(0xff090937).withOpacity(0.6),
-                      ),
-                    ),
+                    child: Text(content.description ?? "",
+                        maxLines: 8,
+                        overflow: TextOverflow.ellipsis,
+                        style: GeneralTextStyle.categoryTextStyle.copyWith(
+                            color: Color(0xff090937).withOpacity(0.6))),
                   )
                 ],
               ),
             ),
-            Spacer(),
+            const Spacer(),
             GeneralButton(
-                onPressed: () {}, buttonText: '87.75', secondText: 'Buy Now'),
+                onPressed: () {},
+                buttonText: content.price.toString() ?? "",
+                secondText: 'Buy Now'),
           ],
         ),
       ),

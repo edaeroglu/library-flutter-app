@@ -1,11 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:mobile_app/feature/login/view/login_view.dart';
 import 'package:mobile_app/feature/splash/view_model/splash_viewmodel.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import '../../../product/text_style/text_style.dart';
-import '../../home/view/home_view.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key, required this.token});
@@ -19,7 +17,6 @@ class _SplashPageState extends SplashViewModel {
   //
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
   }
 
@@ -41,12 +38,6 @@ class _SplashPageState extends SplashViewModel {
                     child: GeneralButton(
                       onPressed: () async {
                         await getToken();
-                        // Navigator.push(
-                        //     context,
-                        //     MaterialPageRoute(
-                        //         builder: (context) => LoginView(
-                        //               token: "",
-                        //             )));
                       },
                       buttonText: 'Login',
                     ),

@@ -1,5 +1,3 @@
-import 'dart:math';
-
 import 'package:flutter/material.dart';
 import 'package:mobile_app/feature/login/service/login_service.dart';
 import 'package:mobile_app/feature/login/view/login_view.dart';
@@ -13,13 +11,6 @@ abstract class LoginViewModel extends State<LoginView> with ProjectDioMixin {
   bool rememberMe = false;
 
   late final ILoginService loginService;
-
-  // @override
-  // void initState() async {
-  //   super.initState();
-  //   loginService = LoginService(service);
-  //   // TODO: implement initState
-  // }
 
   LoginViewModel() {
     loginService = LoginService(service);

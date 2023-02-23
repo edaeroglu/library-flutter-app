@@ -1,18 +1,16 @@
 import 'dart:core';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_app/feature/login/view_model/login_viewmodel.dart';
 import 'package:mobile_app/feature/register/view/register_view.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/padding/padding.dart';
 import 'package:mobile_app/product/text_style/text_style.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-
+import '../../../product/textformfield/text_form_field.dart';
 import '../../home/view/home_view.dart';
 
 class LoginView extends StatefulWidget {
-  LoginView({super.key, required this.token});
+  const LoginView({super.key, required this.token});
   final String token;
 
   @override
@@ -22,26 +20,6 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends LoginViewModel {
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-//   Future<void> main() async {
-//   // SharedPreferences'a erişin
-//   SharedPreferences prefs = await SharedPreferences.getInstance();
-
-//   // "token" anahtarından token'ı alın
-//   token = prefs.getString('token');
-
-//   // 5 saniye bekleyin
-//   await Future.delayed(Duration(seconds: 5));
-
-//   // Token kontrolü yapın
-//   if (token != null) {
-//     // Token varsa anasayfaya yönlendirin
-//     runApp(HomeView(token: widget.token,));
-//   } else {
-//     // Token yoksa giriş sayfasına yönlendirin
-//     runApp(LoginPage());
-//   }
-// }
 
   @override
   void initState() {
@@ -62,22 +40,17 @@ class _LoginViewState extends LoginViewModel {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Align(
+                      const Align(
                         alignment: Alignment.center,
-                        child: SizedBox(
-                          width: 100,
-                          height: 65,
-                          child: SvgPicture.asset('assets/images/logo.svg'),
-                        ),
+                        child: LoginRegisterSizedBox(),
                       ),
                       SizedBox(height: 115.h),
                       Text('Welcome Back!',
-                          style: TextStyle(
-                              fontSize: 16.sp,
-                              fontWeight: FontWeight.w600,
-                              color: Color(0xff090937).withOpacity(0.6))),
+                          style: GeneralTextStyle.generalButtonTextStyle
+                              .copyWith(
+                                  color: Color(0xff090937).withOpacity(0.6))),
                       Text('Login To Your Account',
-                          style: GeneralTextStyle.AccountTextStyle),
+                          style: GeneralTextStyle.accountTextStyle),
                       SizedBox(height: 80.h),
                       Text(
                         'E-mail',
@@ -85,18 +58,8 @@ class _LoginViewState extends LoginViewModel {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: TextFormField(
-                          controller: _emailController,
-                          keyboardType: TextInputType.emailAddress,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF4F4FF),
-                            hintText: 'john@mail.com',
-                            border: InputBorder.none,
-                          ),
-                        ),
+                        child: MailBox().mailBoxDesign,
                       ),
-                      //MailBox().mailBoxDesign,
                       SizedBox(height: 24.h),
                       Text(
                         'Password',
@@ -104,19 +67,8 @@ class _LoginViewState extends LoginViewModel {
                       ),
                       Padding(
                         padding: const EdgeInsets.only(top: 8.0),
-                        child: TextFormField(
-                          obscureText: true,
-                          controller: _passwordController,
-                          keyboardType: TextInputType.visiblePassword,
-                          decoration: const InputDecoration(
-                            filled: true,
-                            fillColor: Color(0xFFF4F4FF),
-                            hintText: '**********',
-                            border: InputBorder.none,
-                          ),
-                        ),
+                        child: PasswordBox().passwordBoxDesign,
                       ),
-                      //PasswordBox().passwordBoxDesign,
                       Row(
                         children: [
                           Expanded(
@@ -164,16 +116,13 @@ class _LoginViewState extends LoginViewModel {
                                 contentPadding: EdgeInsets.all(20),
                               ),
                             );
-
-                            // Kullanıcıya geri bildirim verilecek
                           } else {
+                            // ignore: use_build_context_synchronously
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) =>
                                         HomeView(token: token!)),
                                 (route) => route.isFirst);
-
-                            //login oldu sayfaya yönlendir
                           }
                         },
                         child: Text(
@@ -192,33 +141,3 @@ class _LoginViewState extends LoginViewModel {
     );
   }
 }
-
-
-
-
- // void _getSavedLoginInfo() async {
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   setState(() {
-  //     _rememberMe = prefs.getBool('rememberMe') ?? false;
-  //     if (_rememberMe) {
-  //       _emailController.text = prefs.getString('email') ?? '';
-  //       _passwordController.text = prefs.getString('password') ?? '';
-  //     }
-  //   });
-  // }
-
-  // void _saveLoginInfo() async {
-  //   final expireDate = DateTime.fromMillisecondsSinceEpoch(123461253456124);
-  //   final now = DateTime.now();
-
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
-  //   if (now.compareTo(expireDate) == 1) {
-  //     prefs.remove('email');
-  //     prefs.remove('password');
-  //   } else {
-  //     prefs.setString('email', _emailController.text);
-  //     prefs.setString('password', _passwordController.text);
-  //   }
-
-  //   prefs.setBool('rememberMe', _rememberMe);
-  // }

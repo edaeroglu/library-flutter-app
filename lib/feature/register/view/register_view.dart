@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:mobile_app/feature/home/view/home_view.dart';
 import 'package:mobile_app/feature/login/view/login_view.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/padding/padding.dart';
 import '../../../product/text_style/text_style.dart';
+import '../../../product/textformfield/text_form_field.dart';
 import '../view_model/register_viewmodel.dart';
 
 class RegisterView extends StatefulWidget {
@@ -23,6 +22,38 @@ class _RegisterViewState extends RegisterViewModel {
 
   bool _isRegistering = false;
 
+  Future<void> _register() async {
+    if (_formKey.currentState!.validate()) {
+      setState(() {
+        _isRegistering = true;
+      });
+
+      final success = await register(_emailController.text,
+          _nameController.text, _passwordController.text);
+
+      setState(() {
+        _isRegistering = false;
+      });
+
+      if (success) {
+        // ignore: use_build_context_synchronously
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => LoginView(
+                  token: "",
+                )));
+      } else {
+        // ignore: use_build_context_synchronously
+        await showDialog(
+          context: context,
+          builder: (context) => const AlertDialog(
+            title: Text("Error"),
+            contentPadding: EdgeInsets.all(20),
+          ),
+        );
+      }
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(body: LayoutBuilder(builder: (context, constraint) {
@@ -36,22 +67,17 @@ class _RegisterViewState extends RegisterViewModel {
                 key: _formKey,
                 child: Column(
                   children: [
-                    SizedBox(
-                      width: 100,
-                      height: 65,
-                      child: SvgPicture.asset('assets/images/logo.svg'),
-                    ),
+                    const LoginRegisterSizedBox(),
                     SizedBox(height: 115.h),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text('Welcome',
-                            style: TextStyle(
-                                fontSize: 16.sp,
-                                fontWeight: FontWeight.w600,
-                                color: Color(0xff090937).withOpacity(0.6))),
+                            style: GeneralTextStyle.generalButtonTextStyle
+                                .copyWith(
+                                    color: Color(0xff090937).withOpacity(0.6))),
                         Text('Register an Account',
-                            style: GeneralTextStyle.AccountTextStyle),
+                            style: GeneralTextStyle.accountTextStyle),
                         SizedBox(height: 80.h),
                         Text(
                           'Name',
@@ -75,7 +101,6 @@ class _RegisterViewState extends RegisterViewModel {
                             },
                           ),
                         ),
-                        //MailBox().mailBoxDesign,
                         SizedBox(height: 24.h),
                         Text(
                           'E-mail',
@@ -103,13 +128,11 @@ class _RegisterViewState extends RegisterViewModel {
                             },
                           ),
                         ),
-                        //MailBox().mailBoxDesign,
                         SizedBox(height: 24.h),
                         Text(
                           'Password',
                           style: GeneralTextStyle.generalTextStyle,
                         ),
-                        //PasswordBox().passwordBoxDesign,
                         Padding(
                           padding: const EdgeInsets.only(top: 8.0),
                           child: TextFormField(
@@ -133,14 +156,17 @@ class _RegisterViewState extends RegisterViewModel {
                           alignment: Alignment.centerRight,
                           child: TextButtonStyle(
                             onPressed: () {
-                           //burası LoginView olarak değişecek
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                    builder: (context) => LoginView(token: "")),
+                              );
                             },
                             buttonText: 'Login',
                           ),
                         ),
                       ],
                     ),
-                    Spacer(),
+                    const Spacer(),
                     ElevatedButton(
                       style: ElevatedButton.styleFrom(
                           minimumSize: Size(double.infinity, 60.h),
@@ -153,10 +179,6 @@ class _RegisterViewState extends RegisterViewModel {
                               style: GeneralTextStyle.generalButtonTextStyle,
                             ),
                     ),
-                    // GeneralButton(
-                    //   onPressed: () {},
-                    //   buttonText: 'Register',
-                    // )
                   ],
                 ),
               ),
@@ -165,34 +187,5 @@ class _RegisterViewState extends RegisterViewModel {
         ),
       );
     }));
-  }
-
-  Future<void> _register() async {
-    if (_formKey.currentState!.validate()) {
-      setState(() {
-        _isRegistering = true;
-      });
-
-      final success = await register(_emailController.text,
-          _nameController.text, _passwordController.text);
-
-      setState(() {
-        _isRegistering = false;
-      });
-
-      if (success) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => LoginView(token: "",)));
-      } else {
-        // ignore: use_build_context_synchronously
-        await showDialog(
-          context: context,
-          builder: (context) => const AlertDialog(
-            title: Text("Error"),
-            contentPadding: EdgeInsets.all(20),
-          ),
-        );
-      }
-    }
   }
 }
