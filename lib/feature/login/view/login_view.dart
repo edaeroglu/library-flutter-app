@@ -5,7 +5,6 @@ import 'package:mobile_app/feature/login/view_model/login_viewmodel.dart';
 import 'package:mobile_app/feature/register/view/register_view.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/padding/padding.dart';
-import 'package:mobile_app/product/text_style/text_style.dart';
 import '../../../product/textformfield/text_form_field.dart';
 import '../../home/view/home_view.dart';
 
@@ -18,14 +17,6 @@ class LoginView extends StatefulWidget {
 }
 
 class _LoginViewState extends LoginViewModel {
-  final _emailController = TextEditingController();
-  final _passwordController = TextEditingController();
-
-  @override
-  void initState() {
-    super.initState();
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -46,29 +37,21 @@ class _LoginViewState extends LoginViewModel {
                       ),
                       SizedBox(height: 115.h),
                       Text('Welcome Back!',
-                          style: GeneralTextStyle.generalButtonTextStyle
-                              .copyWith(
-                                  color: Color(0xff090937).withOpacity(0.6))),
+                          style: Theme.of(context).textTheme.headlineMedium),
                       Text('Login To Your Account',
-                          style: GeneralTextStyle.accountTextStyle),
+                          style: Theme.of(context).textTheme.headlineLarge),
                       SizedBox(height: 80.h),
                       Text(
                         'E-mail',
-                        style: GeneralTextStyle.generalTextStyle,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: MailBox().mailBoxDesign,
-                      ),
+                      const EmailFormField(),
                       SizedBox(height: 24.h),
                       Text(
                         'Password',
-                        style: GeneralTextStyle.generalTextStyle,
+                        style: Theme.of(context).textTheme.headlineMedium,
                       ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 8.0),
-                        child: PasswordBox().passwordBoxDesign,
-                      ),
+                      const PasswordTextField(),
                       Row(
                         children: [
                           Expanded(
@@ -99,25 +82,14 @@ class _LoginViewState extends LoginViewModel {
                       Expanded(child: SizedBox(height: 10.h)),
                       ElevatedButton(
                         style: ElevatedButton.styleFrom(
-                            minimumSize: Size(double.infinity, 60.h),
-                            backgroundColor: const Color(0xFFEF6B4A)),
+                          minimumSize: Size(double.infinity, 60.h),
+                        ),
                         onPressed: () async {
-                          await loginButton(
-                            _emailController.text.trim(),
-                            _passwordController.text.trim(),
-                          );
-
+                          await loginButtonPressed();
                           if (token!.isEmpty || token == null) {
                             // ignore: use_build_context_synchronously
-                            await showDialog(
-                              context: context,
-                              builder: (context) => const AlertDialog(
-                                title: Text("Error"),
-                                contentPadding: EdgeInsets.all(20),
-                              ),
-                            );
+                            await showDialogBox(context);
                           } else {
-                            // ignore: use_build_context_synchronously
                             Navigator.of(context).pushAndRemoveUntil(
                                 MaterialPageRoute(
                                     builder: (context) =>
@@ -127,7 +99,6 @@ class _LoginViewState extends LoginViewModel {
                         },
                         child: Text(
                           'Login',
-                          style: GeneralTextStyle.generalButtonTextStyle,
                         ),
                       ),
                     ],
@@ -138,6 +109,23 @@ class _LoginViewState extends LoginViewModel {
           );
         },
       ),
+    );
+  }
+
+  Future<dynamic> showDialogBox(BuildContext context) {
+    return showDialog(
+      context: context,
+      builder: (context) => const AlertDialog(
+        title: Text("Error"),
+        contentPadding: EdgeInsets.all(20),
+      ),
+    );
+  }
+
+  Future<void> loginButtonPressed() {
+    return loginButton(
+      emailController.text.trim(),
+      passwordController.text.trim(),
     );
   }
 }

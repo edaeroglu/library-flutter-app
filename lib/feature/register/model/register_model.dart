@@ -1,7 +1,7 @@
 class RegisterModel {
-  String? email;
-  String? name;
-  String? password;
+  late final String? email;
+  late final String? name;
+  late final String? password;
 
   RegisterModel({this.email, this.name, this.password});
 

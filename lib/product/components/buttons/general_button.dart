@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/product/text_style/text_style.dart';
 
 class GeneralButton extends StatelessWidget {
   const GeneralButton(
@@ -14,12 +13,15 @@ class GeneralButton extends StatelessWidget {
     return ElevatedButton(
       onPressed: onPressed ?? () {},
       style: ElevatedButton.styleFrom(
-          minimumSize: Size(double.infinity, 60.h),
-          backgroundColor: const Color(0xFFEF6B4A)),
+        minimumSize: Size(double.infinity, 60.h),
+      ),
       child: secondText == null
           ? Text(
               buttonText ?? '',
-              style: GeneralTextStyle.generalButtonTextStyle,
+              style: Theme.of(context)
+                  .textTheme
+                  .headlineMedium!
+                  .copyWith(color: Color(0xffFFFFFF)),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -38,8 +40,7 @@ class TextButtonStyle extends StatelessWidget {
   Widget build(BuildContext context) {
     return TextButton(
       onPressed: onPressed ?? () {},
-      child:
-          Text(buttonText ?? '', style: GeneralTextStyle.textButtonTextStyle),
+      child: Text(buttonText ?? ''),
     );
   }
 }

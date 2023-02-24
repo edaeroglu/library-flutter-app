@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:mobile_app/feature/book%20details/view_model/book_details_viewmodel.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
 import 'package:mobile_app/product/service/project_dio.dart';
-import 'package:mobile_app/product/text_style/text_style.dart';
 import '../../../product/model/contents_model.dart';
 import '../../../product/padding/padding.dart';
 
@@ -48,13 +47,8 @@ class _BookDetailsViewState extends BookDetailsViewModel with ProjectDioMixin {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 92.h,
-        backgroundColor: Colors.white,
-        iconTheme: IconThemeData(color: Color(0xff090937)),
         leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () => Navigator.pop(context),
             child: const Icon(Icons.arrow_back_ios)),
         elevation: 0,
         actions: [
@@ -62,7 +56,8 @@ class _BookDetailsViewState extends BookDetailsViewModel with ProjectDioMixin {
             padding: EdgeInsets.only(right: 20.w),
             child: Center(
                 child: Text('Book Details',
-                    maxLines: 8, style: GeneralTextStyle.accountTextStyle)),
+                    maxLines: 8,
+                    style: Theme.of(context).textTheme.headlineLarge)),
           )
         ],
       ),
@@ -103,10 +98,12 @@ class _BookDetailsViewState extends BookDetailsViewModel with ProjectDioMixin {
                   ),
                 ),
                 Text(content.name ?? "",
-                    style: GeneralTextStyle.accountTextStyle),
+                    style: Theme.of(context).textTheme.headlineLarge),
                 Text(content.author ?? "",
-                    style: GeneralTextStyle.generalTextStyle
-                        .copyWith(fontSize: 16.sp)),
+                    style: Theme.of(context)
+                        .textTheme
+                        .headlineMedium!
+                        .copyWith(color: Color(0xff090937).withOpacity(0.6))),
               ],
             ),
             const Spacer(),
@@ -117,15 +114,14 @@ class _BookDetailsViewState extends BookDetailsViewModel with ProjectDioMixin {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text('Summary',
-                        style: GeneralTextStyle.accountTextStyle),
+                        style: Theme.of(context).textTheme.headlineLarge),
                   ),
                   Padding(
                     padding: EdgeInsets.only(top: 10.h),
                     child: Text(content.description ?? "",
                         maxLines: 8,
                         overflow: TextOverflow.ellipsis,
-                        style: GeneralTextStyle.categoryTextStyle.copyWith(
-                            color: Color(0xff090937).withOpacity(0.6))),
+                        style: Theme.of(context).textTheme.titleMedium),
                   )
                 ],
               ),

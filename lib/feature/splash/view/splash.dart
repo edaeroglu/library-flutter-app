@@ -3,7 +3,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:mobile_app/feature/splash/view_model/splash_viewmodel.dart';
 import 'package:mobile_app/product/components/buttons/general_button.dart';
-import '../../../product/text_style/text_style.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({super.key, required this.token});
@@ -46,7 +45,10 @@ class _SplashPageState extends SplashViewModel {
                       onPressed: () {},
                       child: Text(
                         'Skip',
-                        style: GeneralTextStyle.generalButtonTextStyle,
+                        style: Theme.of(context)
+                            .textTheme
+                            .headlineMedium!
+                            .copyWith(color: Color(0xff6251DD)),
                       ))
                 ],
               ))

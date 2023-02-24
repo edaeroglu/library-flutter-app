@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:mobile_app/product/text_style/text_style.dart';
 import 'package:mobile_app/product/textformfield/text_form_field.dart';
 import '../../../product/model/contents_model.dart';
 import '../../../product/padding/padding.dart';
@@ -34,23 +33,19 @@ class _BestSellerViewState extends State<BestSellerView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: 92.h,
-        backgroundColor: Colors.white,
-        iconTheme: const IconThemeData(color: Color(0xff090937)),
         leading: GestureDetector(
-            onTap: () {
-              Navigator.pop(context);
-            },
+            onTap: () => Navigator.pop(context),
             child: const Icon(Icons.arrow_back_ios)),
         elevation: 0,
         actions: [
           Padding(
             padding: BestSellerPadding().categoryPadding,
             child: Center(
-                child: Text(
-              widget.title,
-              style: GeneralTextStyle.accountTextStyle,
-            )),
+              child: Text(
+                widget.title,
+                style: Theme.of(context).textTheme.headlineLarge,
+              ),
+            ),
           )
         ],
       ),
@@ -58,16 +53,23 @@ class _BestSellerViewState extends State<BestSellerView> {
         padding: EdgeInsets.symmetric(horizontal: 20.h),
         child: Column(
           children: [
-            SearchBox().searchBoxDesign,
+            const SearchFormField(),
             Expanded(
               child: Padding(
                 padding: GridViewPadding().gridViewPadding,
                 child: GridView.builder(
-                    gridDelegate: Grid().style,
+                    gridDelegate:
+                        const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 0.6,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
                     itemCount: contentList.length,
                     itemBuilder: (BuildContext context, int index) {
                       return GestureDetector(
                         onTap: () {
+                          //  Navigator.pushNamed(context, '/bookDetailsRoute');
                           Navigator.push(
                               context,
                               MaterialPageRoute(
@@ -104,21 +106,22 @@ class _BestSellerViewState extends State<BestSellerView> {
                                                   contentList[index].name ?? "",
                                                   overflow:
                                                       TextOverflow.ellipsis,
-                                                  style: GeneralTextStyle
-                                                      .bookTextStyle
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall!
                                                       .copyWith(
-                                                    color: Color(0xff090937),
-                                                  )),
+                                                          color: const Color(
+                                                              0xff090937))),
                                             ),
                                             Expanded(
                                               child: Text(
                                                   contentList[index].author ??
                                                       "",
-                                                  style: GeneralTextStyle
-                                                      .bookTextStyle
+                                                  style: Theme.of(context)
+                                                      .textTheme
+                                                      .headlineSmall!
                                                       .copyWith(
-                                                    fontSize: 8.sp,
-                                                  )),
+                                                          fontSize: 8.sp)),
                                             ),
                                           ],
                                         ),
@@ -130,8 +133,9 @@ class _BestSellerViewState extends State<BestSellerView> {
                                                     .price
                                                     .toString() ??
                                                 "",
-                                            style: GeneralTextStyle
-                                                .priceBSTextStyle,
+                                            style: Theme.of(context)
+                                                .textTheme
+                                                .titleSmall,
                                           ),
                                         ],
                                       )
@@ -151,12 +155,4 @@ class _BestSellerViewState extends State<BestSellerView> {
       ),
     );
   }
-}
-
-class Grid {
-  final style = const SliverGridDelegateWithFixedCrossAxisCount(
-      crossAxisCount: 2,
-      childAspectRatio: 0.6,
-      crossAxisSpacing: 10,
-      mainAxisSpacing: 10);
 }

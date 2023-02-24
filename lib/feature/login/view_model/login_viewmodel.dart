@@ -7,10 +7,19 @@ import 'package:shared_preferences/shared_preferences.dart';
 enum EnumValue { token }
 
 abstract class LoginViewModel extends State<LoginView> with ProjectDioMixin {
+  late final ILoginService loginService;
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   String? token;
   bool rememberMe = false;
 
-  late final ILoginService loginService;
+  @override
+  void dispose() {
+    emailController.dispose();
+    passwordController.dispose();
+    // ignore: avoid_print
+    super.dispose();
+  }
 
   LoginViewModel() {
     loginService = LoginService(service);
@@ -25,12 +34,5 @@ abstract class LoginViewModel extends State<LoginView> with ProjectDioMixin {
   Future<void> saveToken(String myToken) async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     await prefs.setString(EnumValue.token.name, myToken);
-
-   
-  }
-
-  Future<void> deleteToken() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.remove('token');
   }
 }
